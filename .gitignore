@@ -1,0 +1,74 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg-info/
+dist/
+build/
+*.egg
+
+# Virtual environments
+.venv/
+venv/
+ENV/
+
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+
+# Vite / React (excluded from this project)
+src/
+public/
+index.html
+vite.config.js
+eslint.config.js
+package.json
+package-lock.json
+
+# Large data files
+*.parquet
+*.pkl
+*.xlsx
+*.xls
+*.docx
+*.doc
+*.csv
+
+# Data directories
+data/
+logs/
+progress/
+school_courses/
+
+# IDE
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+.DS_Store
+
+# Original Chinese source files (translated versions in analytics_dashboard/ and knowledge_graph/)
+/app.py
+/hr_analytics_system/
+
+# Temporary files
+*.log
+*.local
+*.tmp
+tmp*.txt
+cols.txt
+data_summary.txt
+onet_preview.txt
+train_log.txt
+
+# Thesis document
+*.docx
+
+# OS
+Thumbs.db
+Desktop.ini
