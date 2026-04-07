@@ -1,4 +1,4 @@
-# 🎓 Job Market Intelligence: Graph-Based Career Recommendation Engine
+# Job Market Intelligence: Graph-Based Career Recommendation Engine
 
 [![Python](https://img.shields.io/badge/Python-3.9+-blue.svg)](https://python.org)
 [![Streamlit](https://img.shields.io/badge/Streamlit-1.30+-FF4B4B.svg)](https://streamlit.io)
@@ -228,20 +228,3 @@ streamlit run app.py
 | **NL2Cypher** | LLM (Groq/OpenAI compatible) |
 
 ---
-
-## 📝 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
----
-
-## 🤝 Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
-
----
-
-## 📧 Contact
-
-- **GitHub**: [@linjiayi497-max](https://github.com/linjiayi497-max)
-- **Email**: linjiayi497@gmail.com
