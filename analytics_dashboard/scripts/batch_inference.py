@@ -1,11 +1,11 @@
 """
-BERT-BiLSTM-CRF Batch Skill Extraction Inference Script
+MacBERT-BiLSTM-CRF Batch Skill Extraction Inference Script
 
 Runs the trained NER model on all job description CSV files to extract
 skill entities. Designed to run on a GPU server (e.g., cloud GPU instances).
 
 Pipeline:
-1. Load BERT-BiLSTM-CRF model weights
+1. Load MacBERT-BiLSTM-CRF model weights
 2. Read all job posting CSV files
 3. Deduplicate job descriptions for efficiency
 4. Run NER inference to extract skill entities
@@ -27,14 +27,14 @@ warnings.filterwarnings('ignore')
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 
-class BERTBiLSTMCRF(nn.Module):
-    """BERT-BiLSTM-CRF model for Named Entity Recognition (Skill Extraction)."""
+class MacBERTBiLSTMCRF(nn.Module):
+    """MacBERT-BiLSTM-CRF model for Named Entity Recognition (Skill Extraction)."""
 
-    def __init__(self, bert_model_name: str, num_tags: int, hidden_dim: int, dropout: float = 0.1):
-        super(BERTBiLSTMCRF, self).__init__()
-        self.bert = BertModel.from_pretrained(bert_model_name)
-        self.bert_dim = self.bert.config.hidden_size
-        self.lstm = nn.LSTM(self.bert_dim, hidden_dim // 2, num_layers=2,
+    def __init__(self, macbert_model_name: str, num_tags: int, hidden_dim: int, dropout: float = 0.1):
+        super(MacBERTBiLSTMCRF, self).__init__()
+        self.macbert = BertModel.from_pretrained(macbert_model_name)
+        self.macbert_dim = self.macbert.config.hidden_size
+        self.lstm = nn.LSTM(self.macbert_dim, hidden_dim // 2, num_layers=2,
                            bidirectional=True, batch_first=True)
         self.hidden2tag = nn.Linear(hidden_dim, num_tags)
         self.dropout = nn.Dropout(dropout)
@@ -42,7 +42,7 @@ class BERTBiLSTMCRF(nn.Module):
         self.id2label = {0: "O", 1: "B-SKILL", 2: "I-SKILL"}
 
     def forward(self, input_ids, attention_mask):
-        outputs = self.bert(input_ids, attention_mask=attention_mask)
+        outputs = self.macbert(input_ids, attention_mask=attention_mask)
         sequence_output = outputs[0]
         lstm_out, _ = self.lstm(sequence_output)
         lstm_out = self.dropout(lstm_out)
@@ -66,11 +66,11 @@ class BERTBiLSTMCRF(nn.Module):
 
 
 def load_model_and_tokenizer(model_dir: str):
-    """Load BERT-BiLSTM-CRF model weights and tokenizer from a directory."""
+    """Load MacBERT-BiLSTM-CRF model weights and tokenizer from a directory."""
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     tokenizer = BertTokenizer.from_pretrained(model_dir)
 
-    model = BERTBiLSTMCRF(bert_model_name='bert-base-chinese', num_tags=3, hidden_dim=768)
+    model = MacBERTBiLSTMCRF(macbert_model_name='hfl/chinese-macbert-base', num_tags=3, hidden_dim=768)
 
     bin_path = os.path.join(model_dir, 'pytorch_model.bin')
     if os.path.exists(bin_path):
@@ -89,8 +89,8 @@ def extract_skills_from_text(model, tokenizer, device, text: str, max_len: int =
     Extract skill entities from a single text using the NER model.
 
     Args:
-        model: Loaded BERT-BiLSTM-CRF model
-        tokenizer: BERT tokenizer
+        model: Loaded MacBERT-BiLSTM-CRF model
+        tokenizer: MacBERT tokenizer
         device: torch device
         text: Job description text
         max_len: Maximum sequence length

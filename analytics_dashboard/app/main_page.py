@@ -22,7 +22,7 @@ st.markdown("""
 ---
 
 This system analyzes **1.66 million** job postings from major recruitment platforms.
-Using a deep learning NER model (BERT-BiLSTM-CRF) for skill extraction, combined with
+Using a deep learning NER model (MacBERT-BiLSTM-CRF) for skill extraction, combined with
 XGBoost machine learning and SHAP interpretability analysis, it provides an end-to-end
 intelligent analytics platform for job market insights.
 
@@ -42,7 +42,7 @@ intelligent analytics platform for job market insights.
 Raw Recruitment Data (57 CSV files, 1.7M records)
         │
         ▼
-  BERT-BiLSTM-CRF NER Inference (GPU Server)
+  MacBERT-BiLSTM-CRF NER Inference (GPU Server)
         │
         ▼
   Skill Extraction Results Parquet (1GB)

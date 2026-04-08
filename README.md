@@ -6,7 +6,7 @@
 [![XGBoost](https://img.shields.io/badge/XGBoost-2.0+-green.svg)](https://xgboost.ai)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-An end-to-end intelligent career recommendation system built on **1.66 million** real-world job postings. The system combines deep learning NER (BERT-BiLSTM-CRF) for skill extraction, a Neo4j knowledge graph with **30M+ nodes and 110M+ relationships**, XGBoost salary prediction with SHAP explainability, and LLM-powered career guidance.
+An end-to-end intelligent career recommendation system built on **1.66 million** real-world job postings. The system combines deep learning NER (MacBERT-BiLSTM-CRF) for skill extraction, a Neo4j knowledge graph with **30M+ nodes and 110M+ relationships**, XGBoost salary prediction with SHAP explainability, and LLM-powered career guidance.
 
 ---
 
@@ -25,7 +25,7 @@ An end-to-end intelligent career recommendation system built on **1.66 million**
 ┌─────────────────────────────────────────────────────────────────┐
 │                    NLP & Feature Engineering                     │
 │  ┌───────────────────────────────────────────────────────────┐  │
-│  │  BERT-BiLSTM-CRF NER Model → Skill Entity Extraction     │  │
+│  │  MacBERT-BiLSTM-CRF NER Model → Skill Entity Extraction   │  │
 │  │  (GPU Inference on 1.7M job descriptions)                 │  │
 │  └───────────────────────────┬───────────────────────────────┘  │
 │                              ▼                                  │
@@ -117,7 +117,7 @@ An end-to-end intelligent career recommendation system built on **1.66 million**
 │   │   ├── data_cleaning.py           # Raw data cleaning pipeline
 │   │   └── data_loader.py            # Shared data loader & utilities
 │   ├── scripts/                       # Training & inference scripts
-│   │   ├── batch_inference.py         # BERT-BiLSTM-CRF NER inference
+│   │   ├── batch_inference.py         # MacBERT-BiLSTM-CRF NER inference
 │   │   └── train_xgb_model.py        # XGBoost model training
 │   └── models/                        # Trained model storage
 │
@@ -207,12 +207,12 @@ streamlit run app.py
 | RMSE (Root Mean Squared Error) | ~¥2,800 |
 | R² (Coefficient of Determination) | > 0.85 |
 
-### BERT-BiLSTM-CRF NER
+### MacBERT-BiLSTM-CRF NER
 | Metric | Value |
 |--------|-------|
-| Precision | 87.2% |
-| Recall | 84.6% |
-| F1 Score | 85.9% |
+| Precision | 99.14% |
+| Recall | 99.26% |
+| F1 Score | 99.20% |
 
 ---
 
@@ -220,7 +220,7 @@ streamlit run app.py
 
 | Component | Technology |
 |-----------|-----------|
-| **NER Model** | BERT-BiLSTM-CRF (PyTorch + Transformers) |
+| **NER Model** | MacBERT-BiLSTM-CRF (PyTorch + Transformers) |
 | **Salary Prediction** | XGBoost + SHAP |
 | **Knowledge Graph** | Neo4j Graph Database |
 | **Dashboard** | Streamlit + Plotly |
