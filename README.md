@@ -1,230 +1,122 @@
-# Job Market Intelligence: Graph-Based Career Recommendation Engine
+# 求职市场智能分析与图谱推荐系统
 
-[![Python](https://img.shields.io/badge/Python-3.9+-blue.svg)](https://python.org)
-[![Streamlit](https://img.shields.io/badge/Streamlit-1.30+-FF4B4B.svg)](https://streamlit.io)
-[![Neo4j](https://img.shields.io/badge/Neo4j-5.0+-008CC1.svg)](https://neo4j.com)
-[![XGBoost](https://img.shields.io/badge/XGBoost-2.0+-green.svg)](https://xgboost.ai)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+这是一个面向数据分析、商业分析、数据产品、HR Tech、教育科技和职业发展平台的综合数据项目。项目基于大规模招聘岗位数据，构建技能抽取、薪资预测、技能缺口分析、课程推荐和知识图谱查询系统。
 
-An end-to-end intelligent career recommendation system built on **1.66 million** real-world job postings. The system combines deep learning NER (MacBERT-BiLSTM-CRF) for skill extraction, a Neo4j knowledge graph with **30M+ nodes and 110M+ relationships**, XGBoost salary prediction with SHAP explainability, and LLM-powered career guidance.
+## 项目定位
 
----
+本项目试图回答以下问题：
 
-## 📐 System Architecture
+1. 不同行业、城市和薪资段分别需要哪些技能？
+2. 求职者当前技能与目标岗位之间有什么差距？
+3. 哪些技能对薪资预测影响更大？
+4. 哪些课程可以补齐目标岗位所需技能？
+5. 如何用知识图谱连接岗位、技能和课程？
 
-```
-┌─────────────────────────────────────────────────────────────────┐
-│                    Data Collection Layer                        │
-│  ┌──────────────┐  ┌──────────────┐  ┌───────────────────────┐ │
-│  │ Zhilian      │  │ Liepin       │  │ MOOC (iCourse163)     │ │
-│  │ Job Spider   │  │ Job Spider   │  │ Course Scraper        │ │
-│  └──────┬───────┘  └──────┬───────┘  └───────────┬───────────┘ │
-│         └──────────────────┼─────────────────────┘             │
-└────────────────────────────┼───────────────────────────────────┘
-                             ▼
-┌─────────────────────────────────────────────────────────────────┐
-│                    NLP & Feature Engineering                     │
-│  ┌───────────────────────────────────────────────────────────┐  │
-│  │  MacBERT-BiLSTM-CRF NER Model → Skill Entity Extraction   │  │
-│  │  (GPU Inference on 1.7M job descriptions)                 │  │
-│  └───────────────────────────┬───────────────────────────────┘  │
-│                              ▼                                  │
-│  ┌───────────────────────────────────────────────────────────┐  │
-│  │  Data Cleaning → Salary Parsing → Feature Engineering     │  │
-│  └───────────────────────────┬───────────────────────────────┘  │
-└──────────────────────────────┼──────────────────────────────────┘
-                               ▼
-┌─────────────────────────────────────────────────────────────────┐
-│                    Analytics & Models                            │
-│  ┌─────────────────┐ ┌──────────────────┐ ┌──────────────────┐ │
-│  │ Job Data        │ │ Skill Gap        │ │ Salary           │ │
-│  │ Analysis        │ │ Analysis         │ │ Prediction       │ │
-│  │ (TF-IDF,       │ │ (Weighted        │ │ (XGBoost +       │ │
-│  │  Heatmaps)     │ │  Coverage)       │ │  SHAP)           │ │
-│  └─────────────────┘ └──────────────────┘ └──────────────────┘ │
-└─────────────────────────────────────────────────────────────────┘
-                               ▼
-┌─────────────────────────────────────────────────────────────────┐
-│                    Knowledge Graph Engine                        │
-│  ┌───────────────────────────────────────────────────────────┐  │
-│  │  Neo4j Graph Database (30M+ nodes, 110M+ relationships)  │  │
-│  │  Nodes: Job, Skill, Course                                │  │
-│  │  Relations: REQUIRES (Job→Skill), PROVIDES (Course→Skill) │  │
-│  └───────────────────────────┬───────────────────────────────┘  │
-│  ┌───────────────────┐ ┌─────┴───────┐ ┌──────────────────────┐│
-│  │ Job→Course        │ │ Course→Job  │ │ NL2Cypher (LLM)      ││
-│  │ Recommendation    │ │ Matching    │ │ Natural Language      ││
-│  │ (GMSCR Algorithm) │ │ (Jaccard)   │ │ Graph Querying       ││
-│  └───────────────────┘ └─────────────┘ └──────────────────────┘│
-└─────────────────────────────────────────────────────────────────┘
+## 系统架构
+
+项目包含四层：
+
+- 数据采集层：招聘平台岗位采集和课程数据采集。
+- NLP 与特征工程层：岗位文本清洗、薪资解析、技能实体抽取。
+- 分析建模层：岗位技能热力图、技能缺口分析、XGBoost 薪资预测和 SHAP 解释。
+- 知识图谱层：使用 Neo4j 构建岗位-技能-课程图谱，并支持自然语言到 Cypher 查询。
+
+## 核心功能
+
+- 岗位市场分析：统计行业、城市、薪资段下的技能需求。
+- 技能频率与 TF-IDF：识别不同岗位和薪资层级的代表性技能。
+- 技能缺口诊断：输入个人技能或简历文本，计算目标岗位匹配度。
+- 薪资预测：使用 XGBoost 预测岗位薪资，并用 SHAP 解释技能贡献。
+- 课程推荐：基于岗位所需技能推荐可学习课程。
+- 知识图谱查询：构建 Job-Skill-Course 关系网络，支持图谱可视化。
+- LLM 辅助建议：生成个性化技能提升与职业发展建议。
+
+## 项目结构
+
+```text
+.
+|-- data_collection/                 # 岗位与课程采集模块
+|   |-- job_scraping/
+|   `-- course_scraping/
+|-- analytics_dashboard/             # Streamlit 数据分析看板
+|   |-- app/
+|   |-- processing/
+|   |-- scripts/
+|   `-- models/
+|-- knowledge_graph/                 # Neo4j 知识图谱推荐系统
+|-- requirements.txt
+`-- README.md
 ```
 
----
+## 快速开始
 
-## 🚀 Key Features
-
-### 1. 📊 Job Market Analytics Dashboard
-- **Skill Frequency Analysis** — Top skills across industries, cities, and salary bands
-- **Industry × Skill Heatmap** — Visual skill demand patterns across industries
-- **City Skill Comparison** — Regional skill demand differences
-- **TF-IDF Skill Weights** — Identify "signature" skills for each salary band
-
-### 2. 🎯 Skill Gap Analysis
-- **Interactive Skill Input** — Manual selection or resume text parsing
-- **Weighted Coverage Algorithm** — Quantifies skill-job match using importance weights
-- **Radar Chart Visualization** — Intuitive skill coverage comparison
-- **AI Learning Path Report** — LLM-generated personalized learning recommendations
-
-### 3. 💸 Salary Prediction Sandbox
-- **Real-time Prediction** — Select skills, city, experience → instant salary estimate
-- **Skill Marginal Value** — Shows how each additional skill impacts salary
-- **SHAP Explainability** — Feature importance ranking and beeswarm plots
-- **XGBoost Model** — Trained on 1.4M+ records with R² > 0.85
-
-### 4. 🎓 Knowledge Graph Recommendation
-- **Job → Course Recommendation** — Find courses covering target job's core skills
-- **Course → Job Matching** — Discover career paths based on completed courses
-- **Interactive Graph Visualization** — Explore Job-Skill-Course relationships
-- **Natural Language Querying** — Ask questions in plain language (LLM → Cypher)
-
----
-
-## 📁 Project Structure
-
-```
-├── README.md                          # This file
-├── requirements.txt                   # Python dependencies
-├── .gitignore                         # Git ignore rules
-│
-├── data_collection/                   # Web scraping modules
-│   ├── README.md                      # Scraper documentation
-│   ├── job_scraping/                  # Job recruitment scrapers
-│   │   ├── zhilian_job_spider.py      # Zhilian job listing spider
-│   │   ├── zhilian_detail_scraper.py  # Zhilian job detail enrichment
-│   │   └── liepin_job_spider.py       # Liepin job listing spider
-│   └── course_scraping/               # MOOC course scrapers
-│       ├── mooc_selenium_scraper.py   # Browser-based MOOC scraper
-│       └── mooc_api_scraper.py        # API-based MOOC scraper
-│
-├── analytics_dashboard/               # Streamlit analytics system
-│   ├── app/                           # Streamlit pages
-│   │   ├── main_page.py               # Dashboard home page
-│   │   └── pages/
-│   │       ├── 1_job_data_analysis.py  # Job data & skill distribution
-│   │       ├── 2_skill_gap_analysis.py # Personal skill gap diagnosis
-│   │       └── 3_salary_prediction.py  # XGBoost salary prediction
-│   ├── processing/                    # Data processing modules
-│   │   ├── data_cleaning.py           # Raw data cleaning pipeline
-│   │   └── data_loader.py            # Shared data loader & utilities
-│   ├── scripts/                       # Training & inference scripts
-│   │   ├── batch_inference.py         # MacBERT-BiLSTM-CRF NER inference
-│   │   └── train_xgb_model.py        # XGBoost model training
-│   └── models/                        # Trained model storage
-│
-└── knowledge_graph/                   # Knowledge graph system
-    └── app.py                         # Neo4j KG recommendation app
-```
-
----
-
-## 🛠️ Installation & Setup
-
-### Prerequisites
-- Python 3.9+
-- Neo4j 5.0+ (for knowledge graph features)
-- Chrome + ChromeDriver (for web scraping)
-
-### 1. Clone the Repository
 ```bash
 git clone https://github.com/linjiayi497-max/Job-Market-Intelligence-Graph-Based-Career-Recommendation-Engine.git
 cd Job-Market-Intelligence-Graph-Based-Career-Recommendation-Engine
-```
-
-### 2. Install Dependencies
-```bash
 pip install -r requirements.txt
 ```
 
-### 3. Environment Variables
-```bash
-# For AI-powered skill gap reports
-export GROQ_API_KEY="your-groq-api-key"
+如需运行完整图谱功能，需要提前安装 Neo4j 并配置环境变量：
 
-# For knowledge graph (Neo4j)
+```bash
 export NEO4J_PASSWORD="your-neo4j-password"
 ```
 
-### 4. Data Pipeline (if running from scratch)
+如需使用 AI 技能报告，需要配置兼容的 LLM API Key：
 
 ```bash
-# Step 1: Scrape job data
-python data_collection/job_scraping/zhilian_job_spider.py
-
-# Step 2: Run NER skill extraction (requires GPU)
-python analytics_dashboard/scripts/batch_inference.py
-
-# Step 3: Clean extracted data
-python analytics_dashboard/processing/data_cleaning.py
-
-# Step 4: Train salary prediction model
-python analytics_dashboard/scripts/train_xgb_model.py
+export GROQ_API_KEY="your-groq-api-key"
 ```
 
-### 5. Launch Dashboards
+启动分析看板：
 
 ```bash
-# Analytics Dashboard
 cd analytics_dashboard
 streamlit run app/main_page.py
+```
 
-# Knowledge Graph System
+启动知识图谱系统：
+
+```bash
 cd knowledge_graph
 streamlit run app.py
 ```
 
----
+## 数据与模型亮点
 
-## 📊 Data Scale
+- 原始岗位规模：约 1.7M 条。
+- 清洗后有效记录：约 1.4M+ 条。
+- 覆盖行业：50+。
+- 覆盖城市：300+。
+- 技能实体：10,000+。
+- 知识图谱节点：30M+。
+- 知识图谱关系：110M+。
+- 薪资预测模型：XGBoost + SHAP。
+- 技能抽取模型：MacBERT-BiLSTM-CRF。
 
-| Metric | Value |
-|--------|-------|
-| Raw job postings | 1.7 million |
-| Valid records (after cleaning) | 1.4 million+ |
-| Industries covered | 50+ |
-| Cities covered | 300+ |
-| Unique skills extracted | 10,000+ |
-| Knowledge graph nodes | 30 million+ |
-| Knowledge graph relationships | 110 million+ |
+## 适配岗位
 
----
+- 数据分析实习
+- 商业分析实习
+- 数据产品实习
+- HR Tech / 人力资源数据分析实习
+- 教育科技数据分析实习
+- 互联网战略分析实习
+- 职业发展平台运营 / 策略实习
 
-## 🧪 Model Performance
+## 简历表达方向
 
-### XGBoost Salary Prediction
-| Metric | Value |
-|--------|-------|
-| MAE (Mean Absolute Error) | ~¥1,500 |
-| RMSE (Root Mean Squared Error) | ~¥2,800 |
-| R² (Coefficient of Determination) | > 0.85 |
+可强调：
 
-### MacBERT-BiLSTM-CRF NER
-| Metric | Value |
-|--------|-------|
-| Precision | 99.14% |
-| Recall | 99.26% |
-| F1 Score | 99.20% |
+- 构建基于 1.66M 招聘岗位的职业市场智能分析系统，完成岗位技能抽取、薪资预测、技能缺口诊断和课程推荐。
+- 使用 MacBERT-BiLSTM-CRF 抽取岗位技能实体，并用 Neo4j 构建岗位-技能-课程知识图谱。
+- 基于 XGBoost 和 SHAP 解释薪资影响因素，为求职者提供技能提升路径和职业匹配建议。
 
----
+## 面试可讲点
 
-## 🔧 Technology Stack
+- 如何定义岗位技能实体和技能抽取标签。
+- 为什么需要知识图谱连接岗位、技能和课程。
+- 薪资预测模型如何处理城市、经验、行业和技能变量。
+- SHAP 如何解释技能对薪资的边际影响。
+- 数据产品如何从分析看板扩展到职业推荐系统。
 
-| Component | Technology |
-|-----------|-----------|
-| **NER Model** | MacBERT-BiLSTM-CRF (PyTorch + Transformers) |
-| **Salary Prediction** | XGBoost + SHAP |
-| **Knowledge Graph** | Neo4j Graph Database |
-| **Dashboard** | Streamlit + Plotly |
-| **Data Collection** | Selenium + lxml + BeautifulSoup |
-| **NL2Cypher** | LLM (Groq/OpenAI compatible) |
-
----
