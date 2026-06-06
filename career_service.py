@@ -40,6 +40,11 @@ def available_jobs() -> list[str]:
     return [job["job_title"] for job in data["jobs"]]
 
 
+def available_projects() -> list[str]:
+    data = _load_demo_data()
+    return [project["title"] for project in data.get("projects", [])]
+
+
 class BaseCareerAdapter:
     def analyze(self, target_job: str, user_skills: list[str]) -> dict[str, Any]:
         raise NotImplementedError
@@ -62,14 +67,27 @@ class DemoCareerAdapter(BaseCareerAdapter):
 
         recommended_courses = self._recommend_courses([item["skill"] for item in skill_gap])
         similar_jobs = self._similar_jobs(job, normalized_user)
+        recommended_projects = self._recommend_projects(job, normalized_user)
+        interview_questions = self._interview_questions(job, skill_gap)
+        learning_plan = self._learning_plan(skill_gap)
         salary = dict(job["salary"])
         salary.update({"currency": "CNY", "period": "month"})
 
         return {
+            "target_job_profile": {
+                "job_title": job["job_title"],
+                "industry": job.get("industry", ""),
+                "path": job.get("path", ""),
+                "positioning": job.get("positioning", ""),
+                "outputs": job.get("outputs", []),
+            },
             "skill_gap": skill_gap,
             "salary_range": salary,
             "recommended_courses": recommended_courses,
             "similar_jobs": similar_jobs,
+            "recommended_projects": recommended_projects,
+            "interview_questions": interview_questions,
+            "learning_plan": learning_plan,
             "mode": "demo",
         }
 
@@ -116,6 +134,47 @@ class DemoCareerAdapter(BaseCareerAdapter):
             rows.append({"job_title": job["job_title"], "match_score": round(score, 4)})
         return sorted(rows, key=lambda item: item["match_score"], reverse=True)[:8]
 
+    def _recommend_projects(self, target_job: dict[str, Any], normalized_user: set[str]) -> list[dict[str, Any]]:
+        target_skills = {_normalize_skill(skill) for skill in target_job["skills"].keys()}
+        target_title = target_job["job_title"]
+        rows = []
+        for project in self.data.get("projects", []):
+            project_skills = {_normalize_skill(skill) for skill in project.get("skills", [])}
+            suited_jobs = project.get("suited_jobs", [])
+            title_bonus = 1.0 if target_title in suited_jobs else 0.0
+            skill_overlap = len(target_skills & project_skills) / max(len(target_skills), 1)
+            user_overlap = len(normalized_user & project_skills) / max(len(project_skills), 1)
+            score = 0.5 * skill_overlap + 0.35 * title_bonus + 0.15 * user_overlap
+            if score <= 0:
+                continue
+            rows.append(
+                {
+                    "title": project["title"],
+                    "match_score": round(score, 4),
+                    "summary": project.get("summary", ""),
+                    "skills": project.get("skills", [])[:8],
+                    "github_url": project.get("github_url", ""),
+                    "live_url": project.get("live_url", ""),
+                    "resume_pitch": project.get("resume_pitch", ""),
+                    "match_reason": _project_reason(target_title, target_skills, project),
+                }
+            )
+        return sorted(rows, key=lambda item: item["match_score"], reverse=True)[:5]
+
+    def _interview_questions(self, target_job: dict[str, Any], skill_gap: list[dict[str, Any]]) -> list[str]:
+        questions = list(target_job.get("questions", []))
+        for item in skill_gap[:3]:
+            questions.append(f"如果JD要求{item['skill']}，你会如何用自己的项目证明这个能力？")
+        return questions[:8]
+
+    def _learning_plan(self, skill_gap: list[dict[str, Any]]) -> list[str]:
+        priority_skills = [item["skill"] for item in skill_gap[:3]]
+        if not priority_skills:
+            return ["当前技能覆盖度较高，建议重点准备项目复盘、业务影响和面试追问。"]
+        templates = self.data.get("learning_templates", {}).get("default", [])
+        focus = "、".join(priority_skills)
+        return [line.replace("目标岗位最高权重的2-3个技能", f"{focus}") for line in templates]
+
 
 class Neo4jCareerAdapter(BaseCareerAdapter):
     def __init__(self, config: dict[str, str]) -> None:
@@ -148,12 +207,25 @@ def _text_overlap(left: str, right: str) -> int:
     return len(set(left) & set(right))
 
 
+def _project_reason(target_title: str, target_skills: set[str], project: dict[str, Any]) -> str:
+    overlap = [skill for skill in project.get("skills", []) if _normalize_skill(skill) in target_skills]
+    if target_title in project.get("suited_jobs", []):
+        return f"直接适配{target_title}，可作为该岗位的主打项目。"
+    if overlap:
+        return f"覆盖{target_title}常见要求：{'、'.join(overlap[:4])}。"
+    return "可作为补充项目展示业务理解和数据产品能力。"
+
+
 def _empty_payload(mode: str) -> dict[str, Any]:
     return {
+        "target_job_profile": {"job_title": "", "industry": "", "path": "", "positioning": "", "outputs": []},
         "skill_gap": [],
         "salary_range": {"min": 0, "median": 0, "max": 0, "currency": "CNY", "period": "month"},
         "recommended_courses": [],
         "similar_jobs": [],
+        "recommended_projects": [],
+        "interview_questions": [],
+        "learning_plan": [],
         "mode": mode,
     }
 

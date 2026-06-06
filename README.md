@@ -19,7 +19,9 @@ pip install -r requirements.txt
 streamlit run streamlit_app.py
 ```
 
-第一版默认使用轻量演示数据，确保可以直接部署到 Streamlit Community Cloud。若在 Streamlit Cloud 的 secrets 中配置 Neo4j 连接信息，后续可切换真实图谱后端。secrets 模板见 `secrets.example.toml`。
+第一版默认使用扩展演示数据，确保可以直接部署到 Streamlit Community Cloud。若在 Streamlit Cloud 的 secrets 中配置 Neo4j 连接信息，后续可切换真实图谱后端。secrets 模板见 `secrets.example.toml`。
+
+当前产品化入口已扩展为“岗位-技能-课程-项目素材”推荐 demo，内置 22 个岗位样例、61 个技能标签和 11 个个人项目素材，可展示推荐项目、简历表述、相似岗位和面试准备问题。
 
 ## 项目定位
 
