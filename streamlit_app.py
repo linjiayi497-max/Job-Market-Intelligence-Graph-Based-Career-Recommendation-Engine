@@ -1,19 +1,22 @@
 from __future__ import annotations
 
 import html
+import json
+from pathlib import Path
 
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
 import streamlit as st
 
-from career_service import analyze_career, available_jobs, available_projects, available_skills
+from career_service import analyze_career, available_jobs, available_skills
 
 
 BRAND_BLUE = "#17324d"
 BRAND_ORANGE = "#f28c28"
 INK = "#0f1f33"
 MUTED = "#5f6d7c"
+DEMO_DATA_PATH = Path(__file__).resolve().parent / "demo_assets" / "career_graph_demo.json"
 
 
 def inject_css() -> None:
@@ -86,6 +89,27 @@ def read_neo4j_config() -> dict[str, str]:
         }
     except Exception:
         return {}
+
+
+def available_projects() -> list[str]:
+    try:
+        data = json.loads(DEMO_DATA_PATH.read_text(encoding="utf-8"))
+    except Exception:
+        return []
+    return [project["title"] for project in data.get("projects", [])]
+
+
+def ensure_result_schema(result: dict) -> dict:
+    result.setdefault("target_job_profile", {"job_title": "", "industry": "", "path": "", "positioning": "", "outputs": []})
+    result.setdefault("recommended_projects", [])
+    result.setdefault("interview_questions", [])
+    result.setdefault("learning_plan", [])
+    result.setdefault("skill_gap", [])
+    result.setdefault("recommended_courses", [])
+    result.setdefault("similar_jobs", [])
+    result.setdefault("salary_range", {"min": 0, "median": 0, "max": 0, "currency": "CNY", "period": "month"})
+    result.setdefault("mode", "demo")
+    return result
 
 
 def radar_chart(target_job: str, user_skills: list[str], result: dict) -> go.Figure:
@@ -289,7 +313,7 @@ def main() -> None:
             return
 
         with st.spinner("正在分析技能差距、薪资区间、课程、项目和面试问题..."):
-            result = analyze_career(target_job, selected_skills, read_neo4j_config())
+            result = ensure_result_schema(analyze_career(target_job, selected_skills, read_neo4j_config()))
 
         mode_label = "真实后端模式" if result["mode"] == "neo4j" else "扩展演示数据模式"
         st.markdown(f'<div class="mode-badge">{mode_label}</div>', unsafe_allow_html=True)

@@ -2,7 +2,6 @@
 
 输入目标岗位和当前技能，输出技能差距、薪资预期、课程推荐、项目推荐和面试准备重点
 
-- 负责人：林家怡
 - 角色：产品设计 / 职位图谱规则引擎 / Streamlit 产品化 / 部署准备
 - 在线访问：https://career-intel.streamlit.app/
 - GitHub：https://github.com/linjiayi497-max/Job-Market-Intelligence-Graph-Based-Career-Recommendation-Engine
