@@ -65,6 +65,7 @@ cols.txt
 data_summary.txt
 onet_preview.txt
 train_log.txt
+.streamlit/secrets.toml
 
 # Thesis document
 *.docx

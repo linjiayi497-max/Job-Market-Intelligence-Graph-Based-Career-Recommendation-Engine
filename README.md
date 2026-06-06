@@ -2,6 +2,21 @@
 
 这是一个面向数据分析、商业分析、数据产品、HR Tech、教育科技和职业发展平台的综合数据项目。项目基于大规模招聘岗位数据，构建技能抽取、薪资预测、技能缺口分析、课程推荐和知识图谱查询系统。
 
+## 产品化入口：职途智析
+
+`职途智析` 是本项目的公网可部署产品入口。用户输入目标岗位和当前技能后，系统输出技能差距、薪资预期、推荐课程和相似岗位。
+
+在线访问链接：待部署后更新。
+
+本地启动：
+
+```bash
+pip install -r requirements.txt
+streamlit run streamlit_app.py
+```
+
+第一版默认使用轻量演示数据，确保可以直接部署到 Streamlit Community Cloud。若在 Streamlit Cloud 的 secrets 中配置 Neo4j 连接信息，后续可切换真实图谱后端。secrets 模板见 `secrets.example.toml`。
+
 ## 项目定位
 
 本项目试图回答以下问题：
