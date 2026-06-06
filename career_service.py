@@ -7,6 +7,7 @@ from typing import Any
 
 ROOT = Path(__file__).resolve().parent
 DEMO_DATA_PATH = ROOT / "demo_assets" / "career_graph_demo.json"
+EXTENSION_DATA_PATH = ROOT / "demo_assets" / "career_extension_catalog.json"
 
 
 def analyze_career(target_job: str, user_skills: list[str], neo4j_config: dict[str, str] | None = None) -> dict[str, Any]:
@@ -68,6 +69,7 @@ class DemoCareerAdapter(BaseCareerAdapter):
         recommended_courses = self._recommend_courses([item["skill"] for item in skill_gap])
         similar_jobs = self._similar_jobs(job, normalized_user)
         recommended_projects = self._recommend_projects(job, normalized_user)
+        reference_projects = self._recommend_reference_projects(job, normalized_user)
         interview_questions = self._interview_questions(job, skill_gap)
         learning_plan = self._learning_plan(skill_gap)
         salary = dict(job["salary"])
@@ -86,6 +88,7 @@ class DemoCareerAdapter(BaseCareerAdapter):
             "recommended_courses": recommended_courses,
             "similar_jobs": similar_jobs,
             "recommended_projects": recommended_projects,
+            "reference_projects": reference_projects,
             "interview_questions": interview_questions,
             "learning_plan": learning_plan,
             "mode": "demo",
@@ -115,10 +118,15 @@ class DemoCareerAdapter(BaseCareerAdapter):
                         "name": course["name"],
                         "platform": course["platform"],
                         "skill_covered": covered,
+                        "keywords": course.get("keywords", []),
+                        "goal": course.get("goal", ""),
+                        "deliverable": course.get("deliverable", ""),
+                        "suitable_jobs": course.get("suitable_jobs", []),
+                        "url": course.get("url", ""),
                     }
                 )
-        courses.sort(key=lambda item: len(item["skill_covered"]), reverse=True)
-        return courses[:8]
+        courses.sort(key=lambda item: (len(item["skill_covered"]), len(item.get("keywords", []))), reverse=True)
+        return courses[:10]
 
     def _similar_jobs(self, target_job: dict[str, Any], normalized_user: set[str]) -> list[dict[str, Any]]:
         target_skills = {_normalize_skill(skill) for skill in target_job["skills"].keys()}
@@ -159,7 +167,33 @@ class DemoCareerAdapter(BaseCareerAdapter):
                     "match_reason": _project_reason(target_title, target_skills, project),
                 }
             )
-        return sorted(rows, key=lambda item: item["match_score"], reverse=True)[:5]
+        return sorted(rows, key=lambda item: item["match_score"], reverse=True)[:8]
+
+    def _recommend_reference_projects(self, target_job: dict[str, Any], normalized_user: set[str]) -> list[dict[str, Any]]:
+        target_skills = {_normalize_skill(skill) for skill in target_job["skills"].keys()}
+        target_title = target_job["job_title"]
+        rows = []
+        for project in self.data.get("reference_projects", []):
+            project_skills = {_normalize_skill(skill) for skill in project.get("skills", [])}
+            suited_jobs = project.get("suited_jobs", [])
+            title_bonus = 1.0 if target_title in suited_jobs else 0.0
+            skill_overlap = len(target_skills & project_skills) / max(len(target_skills), 1)
+            user_overlap = len(normalized_user & project_skills) / max(len(project_skills), 1)
+            score = 0.55 * skill_overlap + 0.35 * title_bonus + 0.10 * user_overlap
+            if score <= 0:
+                continue
+            rows.append(
+                {
+                    "title": project["title"],
+                    "match_score": round(score, 4),
+                    "summary": project.get("summary", ""),
+                    "skills": project.get("skills", [])[:8],
+                    "github_url": project.get("github_url", ""),
+                    "why_to_read": project.get("why_to_read", ""),
+                    "match_reason": _project_reason(target_title, target_skills, project),
+                }
+            )
+        return sorted(rows, key=lambda item: item["match_score"], reverse=True)[:10]
 
     def _interview_questions(self, target_job: dict[str, Any], skill_gap: list[dict[str, Any]]) -> list[str]:
         questions = list(target_job.get("questions", []))
@@ -190,7 +224,31 @@ class Neo4jCareerAdapter(BaseCareerAdapter):
 
 
 def _load_demo_data() -> dict[str, Any]:
-    return json.loads(DEMO_DATA_PATH.read_text(encoding="utf-8"))
+    data = json.loads(DEMO_DATA_PATH.read_text(encoding="utf-8"))
+    if EXTENSION_DATA_PATH.exists():
+        extension = json.loads(EXTENSION_DATA_PATH.read_text(encoding="utf-8"))
+        _merge_catalog(data, extension)
+    return data
+
+
+def _merge_catalog(base: dict[str, Any], extension: dict[str, Any]) -> None:
+    for key, id_field in (("jobs", "job_title"), ("projects", "title"), ("reference_projects", "title")):
+        existing = {item.get(id_field) for item in base.get(key, [])}
+        for item in extension.get(key, []):
+            if item.get(id_field) not in existing:
+                base.setdefault(key, []).append(item)
+                existing.add(item.get(id_field))
+
+    base_courses = extension.get("courses", []) + base.get("courses", [])
+    seen_courses = set()
+    merged_courses = []
+    for course in base_courses:
+        name = course.get("name")
+        if name in seen_courses:
+            continue
+        merged_courses.append(course)
+        seen_courses.add(name)
+    base["courses"] = merged_courses
 
 
 def _has_neo4j_config(config: dict[str, str] | None) -> bool:
@@ -224,6 +282,7 @@ def _empty_payload(mode: str) -> dict[str, Any]:
         "recommended_courses": [],
         "similar_jobs": [],
         "recommended_projects": [],
+        "reference_projects": [],
         "interview_questions": [],
         "learning_plan": [],
         "mode": mode,

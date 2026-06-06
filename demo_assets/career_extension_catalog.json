@@ -1,0 +1,206 @@
+{
+  "jobs": [
+    {
+      "job_title": "经营分析实习",
+      "industry": "互联网/消费/综合",
+      "path": "经营分析",
+      "positioning": "围绕收入、成本、利润、用户和供给侧指标做经营拆解，支持月度复盘和管理层决策。",
+      "salary": {"min": 8500, "median": 13000, "max": 20000},
+      "skills": {"SQL": 0.16, "Excel": 0.14, "Python": 0.1, "经营分析": 0.18, "指标体系": 0.12, "PPT": 0.12, "商业分析": 0.1, "沟通表达": 0.08},
+      "outputs": ["经营月报", "利润拆解", "异常归因", "管理层汇报"],
+      "questions": ["GMV上涨但利润下降怎么拆？", "经营分析如何区分事实、原因和建议？", "如何设计一张经营日报？"]
+    },
+    {
+      "job_title": "战略分析实习",
+      "industry": "互联网/咨询/集团战略",
+      "path": "战略/商业分析",
+      "positioning": "围绕市场规模、竞争格局、业务模式和增长路径做结构化研究。",
+      "salary": {"min": 9000, "median": 15000, "max": 24000},
+      "skills": {"商业分析": 0.17, "行业研究": 0.17, "结构化思维": 0.14, "PPT": 0.14, "Excel": 0.1, "数据分析": 0.1, "访谈整理": 0.08, "沟通表达": 0.1},
+      "outputs": ["战略分析报告", "市场规模测算", "竞品拆解", "增长路径建议"],
+      "questions": ["如何测算一个新市场规模？", "战略建议如何落到可执行动作？", "如何评估竞品的护城河？"]
+    },
+    {
+      "job_title": "平台策略分析实习",
+      "industry": "互联网/平台经济",
+      "path": "策略分析",
+      "positioning": "分析供需、定价、补贴、规则和转化路径，优化平台效率和生态健康。",
+      "salary": {"min": 9000, "median": 14500, "max": 23000},
+      "skills": {"SQL": 0.16, "Python": 0.1, "策略分析": 0.17, "供需分析": 0.14, "A/B测试": 0.12, "转化漏斗": 0.1, "PPT": 0.1, "业务理解": 0.11},
+      "outputs": ["平台策略报告", "供需诊断", "规则实验", "补贴效率分析"],
+      "questions": ["平台补贴如何评估ROI？", "供需两侧指标冲突时怎么平衡？", "策略上线前如何设计实验？"]
+    },
+    {
+      "job_title": "广告投放分析实习",
+      "industry": "互联网/商业化",
+      "path": "商业化分析",
+      "positioning": "分析广告投放、转化、ROI、素材和人群效果，支持商业化增长。",
+      "salary": {"min": 8000, "median": 12500, "max": 20000},
+      "skills": {"SQL": 0.15, "Excel": 0.12, "广告投放": 0.16, "ROI分析": 0.15, "归因分析": 0.12, "转化漏斗": 0.1, "数据可视化": 0.1, "业务理解": 0.1},
+      "outputs": ["投放复盘", "ROI看板", "人群效果分析", "预算优化建议"],
+      "questions": ["如何判断一组广告素材是否值得放量？", "归因口径变化会带来什么影响？", "ROI和规模冲突时如何取舍？"]
+    },
+    {
+      "job_title": "搜索推荐策略实习",
+      "industry": "互联网/内容/电商",
+      "path": "推荐策略",
+      "positioning": "围绕搜索、推荐、排序和内容供给质量做策略分析和实验评估。",
+      "salary": {"min": 9000, "median": 15000, "max": 24000},
+      "skills": {"SQL": 0.16, "Python": 0.12, "推荐系统": 0.15, "A/B测试": 0.13, "用户行为分析": 0.12, "指标体系": 0.1, "数据可视化": 0.1, "产品理解": 0.1},
+      "outputs": ["推荐策略复盘", "排序指标分析", "供给质量报告", "实验结论"],
+      "questions": ["推荐系统如何平衡相关性和多样性？", "CTR提升但留存下降怎么解释？", "搜索无结果率如何治理？"]
+    },
+    {
+      "job_title": "游戏数据分析实习",
+      "industry": "游戏/互联网",
+      "path": "数据分析",
+      "positioning": "围绕新增、活跃、留存、付费、关卡和活动数据支持游戏运营和产品迭代。",
+      "salary": {"min": 8000, "median": 13000, "max": 21000},
+      "skills": {"SQL": 0.18, "Python": 0.12, "留存分析": 0.14, "漏斗分析": 0.12, "用户分层": 0.1, "A/B测试": 0.1, "数据可视化": 0.1, "业务理解": 0.14},
+      "outputs": ["活动复盘", "留存分析", "付费用户分层", "版本效果评估"],
+      "questions": ["游戏首日留存下降怎么排查？", "付费率和ARPPU分别说明什么？", "如何评估一次活动是否成功？"]
+    },
+    {
+      "job_title": "CRM策略分析实习",
+      "industry": "消费/互联网/零售",
+      "path": "用户策略",
+      "positioning": "基于用户分层、生命周期、触达和权益数据设计精细化运营策略。",
+      "salary": {"min": 7500, "median": 12000, "max": 18500},
+      "skills": {"用户分层": 0.18, "CRM": 0.18, "SQL": 0.14, "RFM": 0.12, "A/B测试": 0.1, "Excel": 0.1, "活动运营": 0.1, "数据可视化": 0.08},
+      "outputs": ["CRM策略", "用户生命周期分析", "权益效果评估", "召回方案"],
+      "questions": ["如何设计会员分层？", "优惠券发放如何避免补贴浪费？", "召回用户如何评估增量？"]
+    },
+    {
+      "job_title": "数据治理实习",
+      "industry": "企业服务/数据平台",
+      "path": "数据治理",
+      "positioning": "维护指标口径、元数据、数据质量和权限体系，提升数据可信度。",
+      "salary": {"min": 8500, "median": 13500, "max": 21000},
+      "skills": {"SQL": 0.18, "数据治理": 0.18, "指标体系": 0.14, "数据质量": 0.14, "元数据": 0.12, "数据仓库": 0.1, "沟通表达": 0.08, "文档写作": 0.06},
+      "outputs": ["指标字典", "数据质量规则", "元数据说明", "权限流程"],
+      "questions": ["如何处理同名指标口径不一致？", "数据质量规则怎么设计？", "元数据管理对业务有什么价值？"]
+    },
+    {
+      "job_title": "数据仓库实习",
+      "industry": "互联网/数据平台",
+      "path": "数据工程/BI",
+      "positioning": "参与数仓分层、ETL、指标建模和数据集建设，支撑业务分析。",
+      "salary": {"min": 9000, "median": 14500, "max": 23000},
+      "skills": {"SQL": 0.22, "数据仓库": 0.18, "ETL": 0.14, "指标体系": 0.12, "dbt": 0.1, "Python": 0.08, "数据质量": 0.08, "业务理解": 0.08},
+      "outputs": ["数仓模型", "ETL任务", "指标数据集", "数据质量校验"],
+      "questions": ["ODS/DWD/DWS/ADS怎么区分？", "宽表和星型模型如何选择？", "ETL失败如何排查？"]
+    },
+    {
+      "job_title": "AI产品经理实习",
+      "industry": "AI/互联网",
+      "path": "AI产品",
+      "positioning": "围绕大模型、智能分析、推荐和自动化能力设计产品方案与评估指标。",
+      "salary": {"min": 10000, "median": 16000, "max": 26000},
+      "skills": {"产品设计": 0.14, "需求分析": 0.14, "LLM": 0.14, "数据分析": 0.12, "评估指标": 0.12, "用户研究": 0.1, "原型设计": 0.1, "沟通表达": 0.1},
+      "outputs": ["AI产品PRD", "评估指标", "Prompt方案", "用户反馈分析"],
+      "questions": ["AI产品如何定义好坏？", "如何避免模型幻觉影响用户体验？", "Prompt和产品流程如何配合？"]
+    },
+    {
+      "job_title": "大模型数据分析实习",
+      "industry": "AI/数据",
+      "path": "AI数据分析",
+      "positioning": "围绕LLM产品日志、评测、用户反馈和质量指标做数据分析。",
+      "salary": {"min": 10000, "median": 16500, "max": 26000},
+      "skills": {"Python": 0.14, "SQL": 0.16, "LLM": 0.13, "NLP": 0.11, "评估指标": 0.13, "数据可视化": 0.1, "A/B测试": 0.1, "业务理解": 0.09},
+      "outputs": ["模型效果分析", "用户反馈洞察", "评测看板", "实验复盘"],
+      "questions": ["如何设计LLM产品的质量指标？", "用户反馈如何做主题归因？", "模型效果和产品效果为什么可能不一致？"]
+    },
+    {
+      "job_title": "医药行业研究实习",
+      "industry": "金融/医药",
+      "path": "行研",
+      "positioning": "跟踪医药行业政策、公司管线、财务表现和商业化进展，形成投资研究判断。",
+      "salary": {"min": 10000, "median": 16500, "max": 26000},
+      "skills": {"行业研究": 0.2, "财务分析": 0.14, "政策研究": 0.12, "Excel": 0.1, "PPT": 0.1, "估值建模": 0.12, "报告写作": 0.12, "数据分析": 0.1},
+      "outputs": ["行业深度", "公司点评", "政策梳理", "盈利预测"],
+      "questions": ["医药行业如何看管线价值？", "集采政策会如何影响公司估值？", "如何区分短期事件和长期逻辑？"]
+    },
+    {
+      "job_title": "新能源行业研究实习",
+      "industry": "金融/新能源",
+      "path": "行研",
+      "positioning": "研究光伏、储能、新能源车等产业链供需、价格、政策和公司竞争力。",
+      "salary": {"min": 10000, "median": 17000, "max": 28000},
+      "skills": {"行业研究": 0.2, "财务分析": 0.13, "供需分析": 0.14, "政策研究": 0.1, "Excel": 0.1, "估值建模": 0.12, "报告写作": 0.11, "数据可视化": 0.1},
+      "outputs": ["产业链分析", "公司跟踪", "景气度指标", "投资观点"],
+      "questions": ["新能源产业链如何判断景气度？", "价格下行对利润率有什么影响？", "如何选择可跟踪的高频数据？"]
+    },
+    {
+      "job_title": "固收研究助理",
+      "industry": "金融/固收",
+      "path": "固收研究",
+      "positioning": "跟踪宏观、利率、信用债和城投债数据，支持投资研究和风险判断。",
+      "salary": {"min": 9500, "median": 15500, "max": 24000},
+      "skills": {"宏观研究": 0.16, "债券分析": 0.18, "Excel": 0.12, "Wind": 0.12, "Python": 0.08, "信用分析": 0.14, "报告写作": 0.1, "数据分析": 0.1},
+      "outputs": ["固收日报", "信用债跟踪", "利率分析", "风险提示"],
+      "questions": ["利率债和信用债关注点有什么不同？", "如何判断信用利差变化？", "城投债研究需要看什么指标？"]
+    },
+    {
+      "job_title": "并购分析实习",
+      "industry": "金融/投行/并购",
+      "path": "投行",
+      "positioning": "参与并购交易材料、可比交易分析、估值建模和尽调资料整理。",
+      "salary": {"min": 11000, "median": 19000, "max": 30000},
+      "skills": {"财务分析": 0.17, "估值建模": 0.18, "Excel": 0.14, "PPT": 0.14, "并购分析": 0.14, "尽职调查": 0.1, "行业研究": 0.08, "沟通表达": 0.07},
+      "outputs": ["并购估值模型", "可比交易分析", "尽调清单", "交易材料"],
+      "questions": ["并购协同效应如何量化？", "可比公司和可比交易怎么选？", "尽调中哪些问题最关键？"]
+    },
+    {
+      "job_title": "宏观策略研究助理",
+      "industry": "金融/宏观策略",
+      "path": "策略研究",
+      "positioning": "跟踪宏观经济、政策、利率、汇率和资产表现，支持策略观点形成。",
+      "salary": {"min": 10000, "median": 17000, "max": 27000},
+      "skills": {"宏观研究": 0.18, "Python": 0.1, "Wind": 0.12, "Excel": 0.12, "数据分析": 0.12, "资产配置": 0.14, "报告写作": 0.12, "PPT": 0.1},
+      "outputs": ["宏观周报", "资产配置观点", "政策解读", "数据跟踪表"],
+      "questions": ["如何看待利率变化对权益资产影响？", "宏观数据滞后怎么做判断？", "如何构建高频宏观跟踪指标？"]
+    }
+  ],
+  "courses": [
+    {"name": "SQL业务分析训练：从宽表到留存", "platform": "Mode SQL / DataLemur / LeetCode SQL", "skills": ["SQL", "留存分析", "指标监控"], "keywords": ["JOIN", "CTE", "窗口函数", "cohort", "漏斗", "留存"], "goal": "能独立写出用户留存、转化漏斗、复购和分组排名SQL。", "deliverable": "一份SQL案例集 + 3张业务指标表。", "suitable_jobs": ["数据分析师", "BI分析师", "产品数据分析实习", "经营分析实习"]},
+    {"name": "A/B测试与因果推断实战", "platform": "Udacity / Coursera / Trustworthy Online Controlled Experiments", "skills": ["A/B测试", "统计分析", "增长实验"], "keywords": ["p-value", "置信区间", "MDE", "样本量", "SRM", "uplift"], "goal": "理解实验设计、显著性检验和实验异常排查。", "deliverable": "一个实验分析notebook + 实验复盘模板。", "suitable_jobs": ["增长运营", "产品数据分析实习", "平台策略分析实习"]},
+    {"name": "产品分析与埋点设计", "platform": "PostHog Docs / GrowthBook Docs / Mixpanel Guide", "skills": ["事件埋点", "产品理解", "漏斗分析"], "keywords": ["event taxonomy", "activation", "retention", "feature adoption", "north-star metric"], "goal": "能为一个功能设计埋点、指标和复盘逻辑。", "deliverable": "埋点方案 + 产品分析看板原型。", "suitable_jobs": ["产品经理", "AI产品经理实习", "产品数据分析实习"]},
+    {"name": "BI看板与指标体系设计", "platform": "Apache Superset / Metabase / Tableau Public", "skills": ["BI", "Tableau", "数据可视化", "指标体系"], "keywords": ["dashboard hierarchy", "KPI tree", "semantic layer", "drill-down", "alert"], "goal": "把业务问题转成可复用的看板和指标字典。", "deliverable": "一个BI dashboard + 指标口径文档。", "suitable_jobs": ["BI分析师", "数据产品经理", "数据治理实习"]},
+    {"name": "dbt数据建模与数据质量", "platform": "dbt Learn / Great Expectations Docs", "skills": ["数据仓库", "dbt", "数据质量", "指标体系"], "keywords": ["staging", "mart", "tests", "lineage", "semantic model"], "goal": "理解数仓分层、数据测试和指标血缘。", "deliverable": "一个dbt项目结构 + 数据质量规则清单。", "suitable_jobs": ["数据仓库实习", "数据治理实习", "BI分析师"]},
+    {"name": "Python商业分析与可视化", "platform": "Kaggle / pandas docs / Plotly", "skills": ["Python", "商业分析", "数据可视化"], "keywords": ["pandas", "EDA", "segmentation", "plotly", "report automation"], "goal": "用Python完成数据清洗、探索分析、可视化和报告自动化。", "deliverable": "一份可运行notebook + 交互图表。", "suitable_jobs": ["商业分析师", "数据分析师", "咨询分析师实习"]},
+    {"name": "用户分层与CRM策略", "platform": "Growth Analytics Casebook / CRM案例", "skills": ["用户分层", "CRM", "RFM", "活动运营"], "keywords": ["RFM", "CLV", "churn", "coupon ROI", "recall", "cohort"], "goal": "能把用户分层结果转化成触达和权益策略。", "deliverable": "一份CRM策略矩阵 + 召回实验设计。", "suitable_jobs": ["用户运营", "CRM策略分析实习", "增长运营"]},
+    {"name": "金融建模与估值分析", "platform": "Wall Street Prep / CFI / Aswath Damodaran", "skills": ["财务分析", "估值建模", "Excel"], "keywords": ["DCF", "comps", "precedent transactions", "WACC", "sensitivity"], "goal": "能搭建基础三表、DCF和可比公司估值模型。", "deliverable": "一个估值模型 + 投资摘要页。", "suitable_jobs": ["投行分析师", "并购分析实习", "证券研究员"]},
+    {"name": "行业研究框架与报告写作", "platform": "券商研报 / 行业协会数据 / Wind", "skills": ["行业研究", "报告写作", "Wind"], "keywords": ["产业链", "供需", "景气度", "政策", "竞争格局"], "goal": "搭建行业研究框架，并能用数据支撑核心观点。", "deliverable": "一篇行业短报告 + 高频指标表。", "suitable_jobs": ["证券研究员", "基金研究助理", "新能源行业研究实习", "医药行业研究实习"]},
+    {"name": "信用评分卡与风险策略", "platform": "Kaggle Credit Risk / DataCamp / scorecardpy", "skills": ["信用评分卡", "AUC/KS", "风险策略"], "keywords": ["WOE", "IV", "KS", "AUC", "vintage", "PSI"], "goal": "能完成评分卡建模、效果评估和策略阈值解释。", "deliverable": "评分卡notebook + 模型监控说明。", "suitable_jobs": ["风控分析师", "信用策略分析实习"]},
+    {"name": "量化因子研究与回测", "platform": "Microsoft Qlib / backtrader / RiceQuant", "skills": ["因子研究", "回测", "金融市场"], "keywords": ["alpha", "IC", "rank IC", "turnover", "drawdown", "transaction cost"], "goal": "理解因子构建、回测评价和过拟合控制。", "deliverable": "一个因子回测报告。", "suitable_jobs": ["量化研究助理", "基金研究助理"]},
+    {"name": "NLP消费者洞察", "platform": "Hugging Face / spaCy / BERTopic", "skills": ["NLP", "问卷分析", "用户研究"], "keywords": ["topic modeling", "sentiment", "embedding", "keyword extraction", "survey coding"], "goal": "把问卷和开放文本转成可解释的用户洞察。", "deliverable": "文本主题看板 + 洞察报告。", "suitable_jobs": ["市场研究实习", "内容策略运营", "AI产品经理实习"]},
+    {"name": "ESG与碳排放数据分析", "platform": "GHG Protocol / CDP / 学堂在线", "skills": ["碳排放核算", "政策研究", "ESG指标分析"], "keywords": ["Scope 1/2/3", "carbon intensity", "policy mapping", "ESG rating", "transition risk"], "goal": "理解ESG指标、碳核算边界和政策变量。", "deliverable": "ESG指标表 + 低碳转型分析报告。", "suitable_jobs": ["ESG数据分析实习", "新能源行业研究实习"]},
+    {"name": "供应链优化与选址建模", "platform": "OR-Tools / Coursera Supply Chain / ArcGIS Learn", "skills": ["优化建模", "供应链管理", "GIS", "供需分析"], "keywords": ["facility location", "linear programming", "service radius", "demand forecast", "routing"], "goal": "用约束和目标函数表达业务优化问题。", "deliverable": "选址模型 + 资源配置方案。", "suitable_jobs": ["供应链分析实习", "城市策略分析实习"]},
+    {"name": "咨询案例与结构化表达", "platform": "Case Interview / Victor Cheng / BCG案例库", "skills": ["结构化思维", "PPT", "商业分析"], "keywords": ["MECE", "market sizing", "profit tree", "issue tree", "storyline"], "goal": "能把模糊商业问题拆成框架、数据和建议。", "deliverable": "一份5页策略汇报deck。", "suitable_jobs": ["咨询分析师实习", "战略分析实习", "经营分析实习"]}
+  ],
+  "reference_projects": [
+    {"title": "Apache Superset", "github_url": "https://github.com/apache/superset", "summary": "开源数据探索与BI可视化平台，适合作为BI看板、指标体系和数据产品设计参考。", "skills": ["BI", "数据可视化", "SQL", "指标体系"], "suited_jobs": ["BI分析师", "数据产品经理", "数据分析师"], "why_to_read": "学习企业级BI产品如何组织数据集、图表、权限和仪表盘。"},
+    {"title": "Metabase", "github_url": "https://github.com/metabase/metabase", "summary": "开源商业智能和嵌入式分析工具，强调低门槛自助分析体验。", "skills": ["BI", "自助分析", "数据产品", "SQL"], "suited_jobs": ["BI分析师", "数据产品经理", "商业分析师"], "why_to_read": "对标如何把复杂数据查询做成业务用户能用的产品。"},
+    {"title": "PostHog", "github_url": "https://github.com/PostHog/posthog", "summary": "集产品分析、实验、feature flag、session replay于一体的开源产品数据平台。", "skills": ["产品分析", "A/B测试", "事件埋点", "增长实验"], "suited_jobs": ["产品数据分析实习", "增长运营", "产品经理"], "why_to_read": "适合学习产品分析平台的指标、事件和实验设计。"},
+    {"title": "GrowthBook", "github_url": "https://github.com/growthbook/growthbook", "summary": "开源feature flag和实验平台，适合理解A/B测试上线、分流和实验治理。", "skills": ["A/B测试", "增长实验", "feature flags", "产品分析"], "suited_jobs": ["增长运营", "产品数据分析实习", "平台策略分析实习"], "why_to_read": "对标实验平台如何管理feature flag、实验指标和决策流程。"},
+    {"title": "dbt Core", "github_url": "https://github.com/dbt-labs/dbt-core", "summary": "数据分析工程常用转换框架，用SQL工程化管理模型、测试和血缘。", "skills": ["数据仓库", "SQL", "dbt", "指标体系"], "suited_jobs": ["数据仓库实习", "数据治理实习", "BI分析师"], "why_to_read": "学习数仓模型、数据测试和指标血缘的工程化实践。"},
+    {"title": "Great Expectations", "github_url": "https://github.com/great-expectations/great_expectations", "summary": "开源数据质量校验框架，适合数据治理和数据平台岗位参考。", "skills": ["数据质量", "数据治理", "Python", "数据测试"], "suited_jobs": ["数据治理实习", "数据仓库实习", "BI分析师"], "why_to_read": "学习如何把数据质量问题转成可配置、可监控的规则。"},
+    {"title": "OpenMetadata", "github_url": "https://github.com/open-metadata/OpenMetadata", "summary": "开源元数据和数据语义平台，适合理解数据资产、指标、血缘和治理。", "skills": ["元数据", "数据治理", "指标体系", "数据资产"], "suited_jobs": ["数据治理实习", "数据产品经理"], "why_to_read": "对标数据治理产品如何组织数据资产和业务语义。"},
+    {"title": "DataHub", "github_url": "https://github.com/datahub-project/datahub", "summary": "LinkedIn开源的数据目录和元数据平台，适合数据平台/治理方向。", "skills": ["元数据", "数据血缘", "数据治理", "数据平台"], "suited_jobs": ["数据治理实习", "数据仓库实习"], "why_to_read": "学习大规模数据目录、血缘和治理工作流。"},
+    {"title": "Evidently", "github_url": "https://github.com/evidentlyai/evidently", "summary": "开源ML/LLM观测和评估框架，适合模型监控、风控和AI产品分析。", "skills": ["模型监控", "可解释性", "机器学习", "评估指标"], "suited_jobs": ["风控分析师", "大模型数据分析实习", "AI产品经理实习"], "why_to_read": "学习如何评估和监控模型漂移、质量和业务表现。"},
+    {"title": "Feast", "github_url": "https://github.com/feast-dev/feast", "summary": "开源特征库，适合理解推荐、风控和机器学习平台的数据特征管理。", "skills": ["特征工程", "机器学习", "数据平台", "风险预警"], "suited_jobs": ["风控分析师", "搜索推荐策略实习", "大模型数据分析实习"], "why_to_read": "理解线上/离线特征一致性和特征复用。"},
+    {"title": "Streamlit", "github_url": "https://github.com/streamlit/streamlit", "summary": "快速构建和分享数据应用的Python框架。", "skills": ["Streamlit", "数据产品", "Python", "数据可视化"], "suited_jobs": ["数据产品经理", "数据分析师", "商业分析师"], "why_to_read": "学习数据产品如何快速从分析脚本落成可交互应用。"},
+    {"title": "Plotly Dash", "github_url": "https://github.com/plotly/dash", "summary": "Python交互式数据应用和dashboard框架。", "skills": ["数据可视化", "dashboard", "Python", "产品化"], "suited_jobs": ["BI分析师", "数据产品经理", "数据分析师"], "why_to_read": "对标复杂交互式数据看板的组件设计。"},
+    {"title": "Apache ECharts", "github_url": "https://github.com/apache/echarts", "summary": "高性能浏览器端交互可视化库。", "skills": ["数据可视化", "图表设计", "dashboard", "前端"], "suited_jobs": ["BI分析师", "数据产品经理"], "why_to_read": "学习图表交互、视觉编码和dashboard呈现。"},
+    {"title": "scikit-learn", "github_url": "https://github.com/scikit-learn/scikit-learn", "summary": "Python机器学习基础库，覆盖分类、回归、聚类、模型评估。", "skills": ["机器学习", "模型评估", "Python", "统计分析"], "suited_jobs": ["风控分析师", "医疗数据分析实习", "数据分析师"], "why_to_read": "巩固建模、评估和pipeline基础。"},
+    {"title": "XGBoost", "github_url": "https://github.com/dmlc/xgboost", "summary": "经典梯度提升树框架，适合风控、预测和结构化数据建模。", "skills": ["XGBoost", "机器学习", "风险预警", "特征工程"], "suited_jobs": ["风控分析师", "医疗数据分析实习", "量化研究助理"], "why_to_read": "适合解释你项目中的薪资预测、风险预警和评分模型。"},
+    {"title": "LightGBM", "github_url": "https://github.com/lightgbm-org/LightGBM", "summary": "高性能GBDT框架，常用于结构化数据预测和排序。", "skills": ["机器学习", "排序", "预测", "特征工程"], "suited_jobs": ["搜索推荐策略实习", "风控分析师", "量化研究助理"], "why_to_read": "学习结构化数据模型和排序/预测任务常用方法。"},
+    {"title": "Hugging Face Transformers", "github_url": "https://github.com/huggingface/transformers", "summary": "主流NLP/LLM模型框架，适合文本分析、技能抽取和AI产品方向。", "skills": ["NLP", "LLM", "文本分析", "技能抽取"], "suited_jobs": ["大模型数据分析实习", "AI产品经理实习", "市场研究实习"], "why_to_read": "对标技能NER、文本洞察和LLM评估能力。"},
+    {"title": "Microsoft Qlib", "github_url": "https://github.com/microsoft/qlib", "summary": "AI量化投资研究平台，覆盖数据、模型、回测和研究流程。", "skills": ["量化研究", "因子研究", "回测", "金融市场"], "suited_jobs": ["量化研究助理", "基金研究助理"], "why_to_read": "适合对标华东杯高频收益预测和因子研究项目。"},
+    {"title": "backtrader", "github_url": "https://github.com/mementum/backtrader", "summary": "Python交易策略回测框架。", "skills": ["回测", "量化研究", "交易策略", "Python"], "suited_jobs": ["量化研究助理", "基金研究助理"], "why_to_read": "学习策略回测、交易成本和收益风险评价。"},
+    {"title": "vn.py", "github_url": "https://github.com/vnpy/vnpy", "summary": "中文社区常用开源量化交易平台开发框架。", "skills": ["量化交易", "Python", "回测", "交易系统"], "suited_jobs": ["量化研究助理"], "why_to_read": "理解量化交易系统的模块结构和实盘约束。"},
+    {"title": "MLflow", "github_url": "https://github.com/mlflow/mlflow", "summary": "机器学习生命周期管理平台，覆盖实验追踪、模型注册和部署。", "skills": ["MLOps", "模型管理", "实验追踪", "机器学习"], "suited_jobs": ["大模型数据分析实习", "风控分析师", "数据产品经理"], "why_to_read": "学习模型实验如何被记录、比较和上线。"},
+    {"title": "Kedro", "github_url": "https://github.com/kedro-org/kedro", "summary": "数据科学pipeline工程化框架。", "skills": ["数据pipeline", "Python", "工程化", "可复现分析"], "suited_jobs": ["数据分析师", "数据仓库实习", "风控分析师"], "why_to_read": "把notebook分析升级为可复现的数据项目结构。"},
+    {"title": "Apache Airflow", "github_url": "https://github.com/apache/airflow", "summary": "工作流编排平台，常用于ETL和数据任务调度。", "skills": ["ETL", "任务调度", "数据仓库", "数据平台"], "suited_jobs": ["数据仓库实习", "数据治理实习"], "why_to_read": "理解数据任务调度、依赖和失败重试。"}
+  ]
+}
