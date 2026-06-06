@@ -6,7 +6,11 @@
 
 `职途智析` 是本项目的公网可部署产品入口。用户输入目标岗位和当前技能后，系统输出技能差距、薪资预期、推荐课程和相似岗位。
 
-在线访问链接：待部署后更新。
+在线访问链接：https://career-intel.streamlit.app/
+
+作品集 PDF：[ZhiTuZhiXi_portfolio.pdf](portfolio/ZhiTuZhiXi_portfolio.pdf)
+
+作品集 Markdown：[ZhiTuZhiXi_portfolio.md](portfolio/ZhiTuZhiXi_portfolio.md)
 
 本地启动：
 
