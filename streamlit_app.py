@@ -94,7 +94,6 @@ def ensure_result_schema(result: dict) -> dict:
     result.setdefault("salary_range", {"min": 0, "median": 0, "max": 0, "currency": "CNY", "period": "month"})
     result.setdefault("recommended_courses", [])
     result.setdefault("similar_jobs", [])
-    result.setdefault("recommended_projects", [])
     result.setdefault("reference_projects", [])
     result.setdefault("interview_questions", [])
     result.setdefault("learning_plan", [])
@@ -175,6 +174,31 @@ def render_profile(profile: dict) -> None:
     )
 
 
+def render_github_projects(projects: list[dict]) -> None:
+    if not projects:
+        st.info("暂未匹配到 GitHub 参考项目。")
+        return
+    st.caption("以下均为公开 GitHub 项目，用于学习、对标、扩展项目思路和面试追问准备。")
+    for project in projects:
+        tags = "".join(f'<span class="tag">{html.escape(skill)}</span>' for skill in project.get("skills", [])[:10])
+        link = ""
+        if project.get("github_url"):
+            link = f'<div class="link-line"><a href="{html.escape(project["github_url"])}" target="_blank">GitHub</a></div>'
+        st.markdown(
+            f"""
+            <div class="project-card">
+              <strong>{html.escape(project['title'])}</strong>
+              <div class="muted">匹配度：{project['match_score']:.0%} · {html.escape(project.get('match_reason', ''))}</div>
+              <p>{html.escape(project.get('summary', ''))}</p>
+              <div>{tags}</div>
+              <p><strong>参考价值：</strong>{html.escape(project.get('why_to_read', ''))}</p>
+              {link}
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
+
+
 def render_courses(courses: list[dict]) -> None:
     if not courses:
         st.info("当前技能差距较少，暂不需要课程推荐。")
@@ -217,59 +241,6 @@ def render_similar_jobs(jobs: list[dict]) -> None:
             )
 
 
-def render_my_projects(projects: list[dict]) -> None:
-    if not projects:
-        st.info("暂未匹配到你的可展示项目。")
-        return
-    st.caption("这些是你的作品/仓库/比赛项目，可用于简历与面试；未上线的项目会只显示项目说明。")
-    for project in projects:
-        tags = "".join(f'<span class="tag">{html.escape(skill)}</span>' for skill in project.get("skills", [])[:10])
-        links = []
-        if project.get("github_url"):
-            links.append(f'<a href="{html.escape(project["github_url"])}" target="_blank">GitHub</a>')
-        if project.get("live_url"):
-            links.append(f'<a href="{html.escape(project["live_url"])}" target="_blank">在线Demo</a>')
-        link_line = " · ".join(links)
-        st.markdown(
-            f"""
-            <div class="project-card">
-              <strong>{html.escape(project['title'])}</strong>
-              <div class="muted">匹配度：{project['match_score']:.0%} · {html.escape(project.get('match_reason', ''))}</div>
-              <p>{html.escape(project.get('summary', ''))}</p>
-              <div>{tags}</div>
-              <p><strong>简历表述：</strong>{html.escape(project.get('resume_pitch', ''))}</p>
-              <div class="link-line">{link_line}</div>
-            </div>
-            """,
-            unsafe_allow_html=True,
-        )
-
-
-def render_reference_projects(projects: list[dict]) -> None:
-    if not projects:
-        st.info("暂未匹配到开源参考项目。")
-        return
-    st.caption("这些是公开 GitHub 项目，用于学习、对标和面试拓展，不会作为你的个人履历项目。")
-    for project in projects:
-        tags = "".join(f'<span class="tag">{html.escape(skill)}</span>' for skill in project.get("skills", [])[:10])
-        link = ""
-        if project.get("github_url"):
-            link = f'<div class="link-line"><a href="{html.escape(project["github_url"])}" target="_blank">GitHub</a></div>'
-        st.markdown(
-            f"""
-            <div class="project-card">
-              <strong>{html.escape(project['title'])}</strong>
-              <div class="muted">参考度：{project['match_score']:.0%} · {html.escape(project.get('match_reason', ''))}</div>
-              <p>{html.escape(project.get('summary', ''))}</p>
-              <div>{tags}</div>
-              <p><strong>为什么值得看：</strong>{html.escape(project.get('why_to_read', ''))}</p>
-              {link}
-            </div>
-            """,
-            unsafe_allow_html=True,
-        )
-
-
 def render_text_cards(title: str, items: list[str]) -> None:
     st.subheader(title)
     if not items:
@@ -298,7 +269,7 @@ def main() -> None:
         """
         <div class="product-header">
           <h1>职途智析</h1>
-          <p>输入目标岗位，发现技能差距、可补项目、开源参考和面试准备重点</p>
+          <p>输入目标岗位，发现技能差距、GitHub参考项目、课程路径和面试准备重点</p>
         </div>
         """,
         unsafe_allow_html=True,
@@ -332,7 +303,7 @@ def main() -> None:
             st.warning("请输入目标岗位。")
             return
 
-        with st.spinner("正在分析技能差距、薪资区间、课程、个人项目、开源参考和面试问题..."):
+        with st.spinner("正在分析技能差距、薪资区间、课程、GitHub项目和面试问题..."):
             result = ensure_result_schema(analyze_career(target_job, selected_skills, read_neo4j_config()))
 
         mode_label = "真实后端模式" if result["mode"] == "neo4j" else "扩展演示数据模式"
@@ -344,12 +315,11 @@ def main() -> None:
 
         render_profile(result["target_job_profile"])
 
-        metric_cols = st.columns(5)
+        metric_cols = st.columns(4)
         metric_cols[0].metric("缺口技能", len(result["skill_gap"]))
         metric_cols[1].metric("薪资中位数", f"{result['salary_range']['median']:,} 元/月")
         metric_cols[2].metric("相似岗位", len(result["similar_jobs"]))
-        metric_cols[3].metric("我的项目", len(result["recommended_projects"]))
-        metric_cols[4].metric("开源参考", len(result["reference_projects"]))
+        metric_cols[3].metric("GitHub项目", len(result["reference_projects"]))
 
         chart_cols = st.columns(2)
         with chart_cols[0]:
@@ -364,11 +334,9 @@ def main() -> None:
         else:
             st.dataframe(gap_df, use_container_width=True)
 
-        tab_my_projects, tab_reference, tab_courses, tab_jobs, tab_interview = st.tabs(["我的项目", "开源参考", "推荐课程", "相似岗位", "面试准备"])
-        with tab_my_projects:
-            render_my_projects(result["recommended_projects"])
-        with tab_reference:
-            render_reference_projects(result["reference_projects"])
+        tab_github, tab_courses, tab_jobs, tab_interview = st.tabs(["GitHub项目", "推荐课程", "相似岗位", "面试准备"])
+        with tab_github:
+            render_github_projects(result["reference_projects"])
         with tab_courses:
             render_courses(result["recommended_courses"])
         with tab_jobs:

@@ -43,7 +43,7 @@ def available_jobs() -> list[str]:
 
 def available_projects() -> list[str]:
     data = _load_demo_data()
-    return [project["title"] for project in data.get("projects", [])]
+    return [project["title"] for project in data.get("reference_projects", [])]
 
 
 class BaseCareerAdapter:
@@ -68,7 +68,6 @@ class DemoCareerAdapter(BaseCareerAdapter):
 
         recommended_courses = self._recommend_courses([item["skill"] for item in skill_gap])
         similar_jobs = self._similar_jobs(job, normalized_user)
-        recommended_projects = self._recommend_projects(job, normalized_user)
         reference_projects = self._recommend_reference_projects(job, normalized_user)
         interview_questions = self._interview_questions(job, skill_gap)
         learning_plan = self._learning_plan(skill_gap)
@@ -87,7 +86,7 @@ class DemoCareerAdapter(BaseCareerAdapter):
             "salary_range": salary,
             "recommended_courses": recommended_courses,
             "similar_jobs": similar_jobs,
-            "recommended_projects": recommended_projects,
+            "recommended_projects": [],
             "reference_projects": reference_projects,
             "interview_questions": interview_questions,
             "learning_plan": learning_plan,
@@ -140,33 +139,6 @@ class DemoCareerAdapter(BaseCareerAdapter):
             user_bonus = len(job_skills & normalized_user) / max(len(job_skills), 1)
             score = 0.75 * (overlap / union) + 0.25 * user_bonus
             rows.append({"job_title": job["job_title"], "match_score": round(score, 4)})
-        return sorted(rows, key=lambda item: item["match_score"], reverse=True)[:8]
-
-    def _recommend_projects(self, target_job: dict[str, Any], normalized_user: set[str]) -> list[dict[str, Any]]:
-        target_skills = {_normalize_skill(skill) for skill in target_job["skills"].keys()}
-        target_title = target_job["job_title"]
-        rows = []
-        for project in self.data.get("projects", []):
-            project_skills = {_normalize_skill(skill) for skill in project.get("skills", [])}
-            suited_jobs = project.get("suited_jobs", [])
-            title_bonus = 1.0 if target_title in suited_jobs else 0.0
-            skill_overlap = len(target_skills & project_skills) / max(len(target_skills), 1)
-            user_overlap = len(normalized_user & project_skills) / max(len(project_skills), 1)
-            score = 0.5 * skill_overlap + 0.35 * title_bonus + 0.15 * user_overlap
-            if score <= 0:
-                continue
-            rows.append(
-                {
-                    "title": project["title"],
-                    "match_score": round(score, 4),
-                    "summary": project.get("summary", ""),
-                    "skills": project.get("skills", [])[:8],
-                    "github_url": project.get("github_url", ""),
-                    "live_url": project.get("live_url", ""),
-                    "resume_pitch": project.get("resume_pitch", ""),
-                    "match_reason": _project_reason(target_title, target_skills, project),
-                }
-            )
         return sorted(rows, key=lambda item: item["match_score"], reverse=True)[:8]
 
     def _recommend_reference_projects(self, target_job: dict[str, Any], normalized_user: set[str]) -> list[dict[str, Any]]:
@@ -232,7 +204,7 @@ def _load_demo_data() -> dict[str, Any]:
 
 
 def _merge_catalog(base: dict[str, Any], extension: dict[str, Any]) -> None:
-    for key, id_field in (("jobs", "job_title"), ("projects", "title"), ("reference_projects", "title")):
+    for key, id_field in (("jobs", "job_title"), ("reference_projects", "title")):
         existing = {item.get(id_field) for item in base.get(key, [])}
         for item in extension.get(key, []):
             if item.get(id_field) not in existing:

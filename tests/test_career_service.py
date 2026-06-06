@@ -15,8 +15,9 @@ class CareerServiceTest(unittest.TestCase):
         self.assertIn("数据分析师", available_jobs())
         self.assertIn("证券研究员", available_jobs())
         self.assertIn("SQL", available_skills())
+        self.assertIn("Apache Superset", available_projects())
         self.assertGreaterEqual(len(available_jobs()), 35)
-        self.assertGreaterEqual(len(available_projects()), 8)
+        self.assertGreaterEqual(len(available_projects()), 20)
 
     def test_analyze_returns_stable_schema(self) -> None:
         result = analyze_career("数据分析师", ["Python", "Excel"])
@@ -37,7 +38,7 @@ class CareerServiceTest(unittest.TestCase):
         )
         self.assertIn("median", result["salary_range"])
         self.assertEqual(result["mode"], "demo")
-        self.assertGreaterEqual(len(result["recommended_projects"]), 3)
+        self.assertEqual(result["recommended_projects"], [])
         self.assertGreaterEqual(len(result["reference_projects"]), 3)
         self.assertTrue(any(course.get("keywords") for course in result["recommended_courses"]))
 
@@ -55,16 +56,17 @@ class CareerServiceTest(unittest.TestCase):
         self.assertIn("recommended_projects", result)
         self.assertIn("reference_projects", result)
 
-    def test_full_skill_match_has_no_gap_but_still_recommends_projects(self) -> None:
+    def test_full_skill_match_has_no_gap_but_still_recommends_github_projects(self) -> None:
         skills = ["SQL", "Python", "Excel", "Tableau", "统计分析", "A/B测试", "业务理解", "数据可视化"]
         result = analyze_career("数据分析师", skills)
         self.assertEqual(result["skill_gap"], [])
-        self.assertGreater(len(result["recommended_projects"]), 0)
+        self.assertEqual(result["recommended_projects"], [])
+        self.assertGreater(len(result["reference_projects"]), 0)
 
-    def test_finance_role_recommends_finance_project(self) -> None:
-        result = analyze_career("证券研究员", ["Excel", "Python", "Wind"])
-        project_titles = [item["title"] for item in result["recommended_projects"]]
-        self.assertIn("行业财务因子研究", project_titles)
+    def test_finance_role_recommends_quant_or_modeling_reference(self) -> None:
+        result = analyze_career("量化研究助理", ["Excel", "Python", "Wind"])
+        project_titles = [item["title"] for item in result["reference_projects"]]
+        self.assertTrue(any(title in project_titles for title in ["Microsoft Qlib", "backtrader", "vn.py", "XGBoost"]))
 
 
 if __name__ == "__main__":
