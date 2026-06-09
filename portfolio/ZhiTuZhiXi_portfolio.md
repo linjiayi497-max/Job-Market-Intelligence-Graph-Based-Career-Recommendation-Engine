@@ -1,88 +1,209 @@
-# 职途智析 职位图谱推荐系统作品集
+---
+title: "职途智析"
+subtitle: "岗位技能图谱驱动的职业路径推荐与求职准备工具"
+author: "产品作品集"
+date: ""
+aspectratio: 169
+classoption:
+  - aspectratio=169
+theme: "Madrid"
+colortheme: "dolphin"
+fonttheme: "professionalfonts"
+mainfont: "Microsoft YaHei"
+CJKmainfont: "Microsoft YaHei"
+header-includes:
+  - \definecolor{brandblue}{HTML}{17324D}
+  - \definecolor{brandorange}{HTML}{F28C28}
+  - \setbeamercolor{structure}{fg=brandblue}
+  - \setbeamercolor{frametitle}{fg=white,bg=brandblue}
+  - \setbeamercolor{title}{fg=brandblue}
+  - \setbeamercolor{block title}{fg=white,bg=brandblue}
+  - \setbeamercolor{block body}{fg=black,bg=blue!4}
+  - \setbeamertemplate{navigation symbols}{}
+---
 
-输入目标岗位和当前技能，输出技能差距、薪资预期、课程推荐、GitHub开源项目和面试准备重点
+# 项目概览
 
-- 角色：产品设计 / 职位图谱规则引擎 / Streamlit 产品化 / 部署准备
-- 在线访问：https://career-intel.streamlit.app/
-- GitHub：https://github.com/linjiayi497-max/Job-Market-Intelligence-Graph-Based-Career-Recommendation-Engine
-- 项目一句话：将岗位-技能-课程-GitHub开源项目关系封装为统一 analyze_career 接口，用扩展演示数据保证公网可用，并预留 Neo4j、XGBoost 和 NER 模型接入。
+## 职途智析
 
-![career_intel_analysis_result.png](assets/career_intel_analysis_result.png)
+把岗位 JD、个人技能、课程补齐、开源项目和面试准备串成一条可解释的求职决策链路。
 
-![career_intel_mobile.png](assets/career_intel_mobile.png)
+- 角色：产品设计 / 数据产品 / Streamlit MVP
+- 方向：AI + 职业发展 + 教育科技
+- 在线 Demo：`career-intel.streamlit.app`
+- GitHub：`Job-Market-Intelligence-Graph-Based-Career-Recommendation-Engine`
 
-## 1. 产品定位与用户问题
+![](assets/career_intel_analysis_result.png){width=63%}
 
-- 目标用户：准备投递数据分析、商业分析、产品、运营、证券研究、投行、基金、风控、ESG和咨询方向实习的学生。
-- 核心问题：求职者很难把 JD、个人技能、课程学习和相似岗位机会放到同一张图里判断。
-- 产品目标：输入目标岗位和当前技能，即可获得技能差距、薪资区间、课程补齐路径、可横向投递岗位、GitHub开源参考项目和面试追问。
-- 可信边界：第一版明确标识“扩展演示数据模式”，避免把 demo 误导成完整真实后端。
+# 用户问题
 
-## 2. 产品流程
+## 学生真正卡住的不是“没有资源”
 
-| 阶段 | 产品动作 |
+而是不知道如何把这些信息连接起来：
+
+> “我该投什么？我差哪些技能？该补哪门课？怎么把学习变成简历和面试证据？”
+
+- 招聘 JD、课程平台、经验帖、简历模板分散在不同场景
+- 岗位技能词难以转译成可执行的学习路径和项目方向
+- 就业指导需要一个低门槛、可解释、可演示的产品入口
+- 原论文方向偏 NER / 知识图谱，需要转化成用户能用的产品闭环
+
+# 解决方案
+
+## 从目标岗位出发，输出下一步求职行动
+
+| 阶段 | 产品动作 | 用户价值 |
+| --- | --- | --- |
+| 1. 输入目标 | 选择目标岗位、填写已有技能或粘贴 JD | 明确分析对象 |
+| 2. 识别差距 | 按岗位技能权重计算缺口 | 知道具体差在哪 |
+| 3. 推荐路径 | 匹配课程、项目和相似岗位 | 得到补齐路线 |
+| 4. 准备表达 | 生成面试追问和项目讲述方向 | 转成投递材料 |
+| 5. 形成闭环 | 沉淀求职记录、简历版本、AI 改写 | 长期管理求职动作 |
+
+# 我的角色与取舍
+
+## 我负责把论文/算法方向产品化成可在线演示的 MVP
+
+### 我做了什么
+
+- 需求定义：从就业动员反馈拆出核心任务
+- 产品设计：设计岗位画像、技能缺口、课程和项目推荐
+- 数据产品：定义岗位、技能、课程、项目和推荐解释字段
+- MVP 落地：用 Streamlit 搭建在线 Demo
+
+### 关键取舍
+
+- 先验证完整用户路径，而不是先追求完整模型
+- 明确 demo / neo4j 模式，避免夸大真实后端能力
+- 加入 GitHub 项目推荐，让学习路径能转成作品集证据
+- 用统一接口给后续 NER、Neo4j、薪资模型留扩展空间
+
+# 核心界面
+
+## 一屏讲清“岗位要求 → 能力缺口 → 行动建议”
+
+![](assets/career_intel_analysis_result.png){width=83%}
+
+- 顶部展示岗位画像与关键指标，降低用户理解成本
+- 中部用雷达图和薪资图建立直观判断
+- 下方用 Tab 承载课程、项目、相似岗位和面试准备
+
+# 新增板块总览
+
+## 从单次分析工具升级为一体化求职工作台
+
+![](zhituzhixi_extension_layout.png){width=90%}
+
+- 左侧：用户求职上下文，作为岗位分析、AI 改简历和投递记录的统一输入
+- 中间：求职记录看板，管理投递阶段、优先级、截止日期和下一步行动
+- 右侧：AI 改简历工作台，串联 JD、简历版本、API 配置和人工确认
+
+# 用户求职上下文
+
+## 把“用户是谁、想去哪、能做什么”结构化
+
+- 基本画像：默认使用通用人物“李华”，避免把真实个人信息写进模板
+- 目标城市：中国 34 个省级行政区 + 对应城市联动下拉
+- 目标方向：参考 BOSS 直聘职位分类，覆盖技术、产品、运营、销售、职能、设计、医疗、金融等方向
+- 能力标签：按语言、计算机、数据/AI、产品运营、设计传媒、财务职能、制造工程、通用能力分组
+- 简历版本：上传 1-10 个 PDF，只读取文件名，作为后续投递记录的版本选项
+
+# 求职记录看板
+
+## 把“想投、准备、已投、面试、Offer、归档”做成可追踪流程
+
+- 新增记录：公司、岗位、方向、状态、优先级、截止日期、下一步行动
+- 简历绑定：从已上传 PDF 文件名中下拉选择，明确每个岗位用了哪版简历
+- 方向搜索：方向字段支持关键词输入，可快速筛选 AI、产品、运营、金融等岗位
+- 看板流转：点击进入下一阶段，低成本维护投递进度
+- 导入导出：JSON 导入 / 导出，保证本地可迁移、可备份
+
+# AI 改简历工作台
+
+## 从“生成文本”改成“岗位版简历生产流程”
+
+- 选择岗位 / 粘贴 JD：可从求职记录读取，也可手动粘贴，避免只凭岗位名泛泛改写
+- 上传或粘贴简历：支持 docx / txt / md 文本读取，要求保留真实经历
+- 改写配置：选择输出语言、目标篇幅和强调能力，让结果服务不同投递场景
+- 本地预览 / AI 调用：没有 API Key 时也能先看规则建议
+- 人工确认与保存：改写结果可保存回该岗位记录，成为投递流程的一部分
+
+# API 配置与安全边界
+
+## 让用户自己配置模型，同时不把密钥写入仓库
+
+- API Key 只保存在当前 Streamlit 会话状态中
+- 支持 OpenAI-compatible `/chat/completions` 接口
+- Base URL、Model、Temperature、Timeout 可配置
+- 提供测试连接按钮，先验证接口再进入 AI 改写
+- Prompt 明确要求：基于真实简历事实，不编造学校、公司、奖项、实习或量化结果
+
+# 产品架构
+
+## 统一接口让前端体验和后端模型解耦
+
+- 输入层：目标岗位、当前技能、JD 文本、求职记录和简历版本
+- 服务层：`analyze_career(target_job, user_skills)` 固定输入输出 schema
+- 适配器：`DemoCareerAdapter` 保证公网稳定，`Neo4jCareerAdapter` 预留真实图谱
+- 推荐层：技能缺口、课程、相似岗位、GitHub 项目和面试问题排序
+- 展示层：Streamlit 页面、Plotly 图表、卡片和 Tab 组织复杂结果
+- 扩展层：NER 技能抽取、XGBoost 薪资预测、SHAP 解释和真实 JD 数据
+
+# 推荐逻辑
+
+## 推荐围绕缺口技能给理由
+
+### 当前 MVP
+
+- 38 个岗位样例
+- 83 个技能标签
+- 23 个 GitHub 开源参考项目
+- 7 个核心输出模块
+
+### 计算思路
+
+- 技能缺口：目标岗位技能集合 - 用户已有技能集合
+- 课程推荐：按缺口技能覆盖范围排序
+- 项目推荐：按岗位适配度和技能重叠度排序
+- 相似岗位：按岗位技能集合重叠度排序
+
+# 求职工作台扩展
+
+## 新旧能力如何合成完整闭环
+
+- 岗位分析：从目标岗位和已有技能出发，识别缺口和学习路径
+- 求职记录看板：记录投递状态、截止日期、优先级和下一步行动
+- 用户求职上下文：统一维护目标城市、岗位方向、能力标签和简历 PDF 版本
+- AI 改简历：读取 JD、原始简历和用户上下文，生成岗位定制版改写建议
+- API 配置：支持用户自行配置 OpenAI-compatible 接口，不把 Key 写入仓库
+- 面试准备：把岗位分析和简历改写结果转成可追问的问题
+
+> 产品边界从“推荐你学什么”推进到“帮你管理投递、定制简历、准备面试”。
+
+# 当前成果
+
+## 可展示结果和可信边界
+
+| 维度 | 结果 |
 | --- | --- |
-| 输入 | 选择目标岗位，勾选当前技能，并可补充 Wind、PPT、SQL 等自定义技能。 |
-| 分析 | 统一调用 analyze_career(target_job, user_skills)，不让前端直接关心图谱或模型细节。 |
-| 匹配 | 比较目标岗位技能权重与用户已有技能，生成 skill_gap。 |
-| 推荐 | 按缺口技能匹配课程，同时根据岗位技能重叠度返回 similar_jobs，并从GitHub开源项目库匹配可参考项目。 |
-| 展示 | 用雷达图、薪资柱状图、课程卡片、GitHub项目卡片、相似岗位卡片和面试问题组织结果。 |
+| 示例缺口技能 | 6 个 |
+| 示例薪资中位数 | 13,000 元 / 月 |
+| 相似岗位推荐 | 8 个 |
+| GitHub 项目推荐 | 10 个 |
+| 部署方式 | Streamlit Cloud 可在线访问 |
+| 可信边界 | 明确展示 demo / neo4j 模式，不把样例数据包装成生产系统 |
 
-## 3. 核心界面展示
+# 面试讲法
 
-结果页同时给出模式标识、岗位画像、缺口技能数量、薪资中位数、相似岗位数量、GitHub项目和技能差距表，适合在面试中现场演示产品闭环。
+## 从真实问题到可运行产品
 
-![career_intel_analysis_result.png](assets/career_intel_analysis_result.png)
+### 30 秒版本
 
-## 4. 统一 API 输出
+职途智析是我基于就业动员反馈和 NER 论文方向做的职业路径推荐产品。它解决学生看不懂 JD、课程和自身技能关系的问题。用户输入目标岗位和已有技能后，系统输出技能缺口、课程推荐、相似岗位、GitHub 项目和面试准备问题。
 
-| 字段 | 说明 |
-| --- | --- |
-| skill_gap | 目标岗位所需但用户缺少的技能列表，每个技能带 importance 权重。 |
-| salary_range | 薪资区间，包含 min、median、max、currency、period。 |
-| recommended_courses | 补齐技能差距的课程列表，包含课程名、平台和覆盖技能。 |
-| similar_jobs | 按技能重叠度返回相似岗位及 match_score。 |
-| reference_projects | 从GitHub开源项目库中选择最适合该岗位的参考项目，返回匹配理由、项目摘要、技能标签和项目链接。 |
-| interview_questions | 结合岗位要求和技能差距生成可能被追问的问题。 |
-| learning_plan | 基于高权重缺口技能给出补强路径。 |
-| mode | 返回 demo 或 neo4j，明确当前运行后端。 |
+### 可追问点
 
-## 5. 数据层与模型策略
-
-- demo_assets 存放岗位-技能-课程-GitHub开源项目样例数据，保证公网部署无需重型模型文件。
-- DemoCareerAdapter 负责岗位匹配、技能差距计算、课程推荐、GitHub项目推荐、相似岗位排序和面试问题生成。
-- Neo4jCareerAdapter 预留真实图谱后端入口，secrets 完整时可切换真实后端模式。
-- 无 XGBoost 模型时使用 demo 薪资分布；无 NER 模型时使用预设技能库和关键词匹配。
-- 接口 schema 固定，便于未来替换后端模型而不重写前端。
-
-## 6. 技术架构
-
-| 层级 | 实现 |
-| --- | --- |
-| 前端 | Streamlit 页面，左侧输入，右侧结果，Plotly 雷达图、薪资柱状图、GitHub项目卡片和面试准备页签。 |
-| 服务层 | career_service.py 封装 analyze_career、available_jobs、available_skills、available_projects。 |
-| 适配器 | DemoCareerAdapter 和 Neo4jCareerAdapter 分离演示数据与真实图谱接入。 |
-| 部署 | requirements.txt 精简为 Streamlit Cloud 可部署依赖，secrets.example.toml 提供配置模板。 |
-| 测试 | 覆盖空岗位、未知岗位、空技能、完整技能匹配和固定 schema。 |
-
-## 7. Demo 结果口径
-
-- 以“数据分析师 + Python/Excel”为例，系统识别 6 个缺口技能，给出 13,000 元/月薪资中位数、8 个相似岗位和 10 个GitHub参考项目。
-- 扩展演示数据包含 38 个岗位样例、83 个技能标签和 23 个GitHub开源参考项目。
-- 课程推荐聚焦 SQL、统计分析、Tableau、A/B 测试、业务理解和数据可视化等可补齐技能。
-- GitHub项目推荐会把 Superset、Metabase、PostHog、GrowthBook、dbt、Qlib、XGBoost 等开源项目按岗位要求排序。
-
-## 8. 产品亮点
-
-- 把原本偏研究/分析的职位图谱项目，落成可在线访问的职业规划与GitHub开源项目参考工具。
-- 通过 adapter 设计把前端产品体验与后端图谱/模型解耦。
-- 明确展示运行模式，让 demo 可公开演示且不夸大真实后端能力。
-- 把GitHub开源项目接入推荐逻辑，能直接回答“这个岗位我该参考哪些成熟项目”。
-- 输出结构天然适合后续扩展到简历 JD 匹配、学习路径推荐和投递策略建议。
-
-## 9. 面试可讲点与后续迭代
-
-- 如何定义岗位、技能、课程之间的图谱关系和权重。
-- 为什么产品第一版选择 demo fallback，而不是强依赖 Neo4j 和深度学习模型。
-- 如何用 XGBoost 薪资模型、NER 技能抽取和 Neo4j 图谱逐步替换规则引擎。
-- 后续可接入实时 JD 抓取、用户画像、技能学习进度和多岗位投递推荐。
+- 为什么第一版选择 demo fallback
+- 如何定义岗位、技能、课程之间的权重关系
+- 后续如何接入 NER、Neo4j 和薪资预测模型
+- 为什么把 GitHub 项目推荐加入求职闭环

@@ -1,0 +1,922 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>职途智析功能扩展布局概览</title>
+  <style>
+    :root {
+      --blue: #17324d;
+      --blue-2: #244b70;
+      --orange: #f28c28;
+      --ink: #142033;
+      --muted: #607088;
+      --line: #dfe7f0;
+      --bg: #f5f7fa;
+      --soft: #eef4fa;
+      --green: #1f9d63;
+      --red: #d64545;
+      --purple: #6750a4;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", Arial, sans-serif;
+    }
+
+    .canvas {
+      width: 1800px;
+      min-height: 1180px;
+      margin: 0 auto;
+      padding: 28px;
+    }
+
+    .topbar {
+      height: 86px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 28px;
+      border-radius: 8px;
+      background: var(--blue);
+      color: #fff;
+      box-shadow: 0 10px 24px rgba(23, 50, 77, 0.12);
+    }
+
+    .brand h1 {
+      margin: 0;
+      font-size: 30px;
+      line-height: 1.15;
+      letter-spacing: 0;
+    }
+
+    .brand p {
+      margin: 7px 0 0;
+      color: #d7e1ec;
+      font-size: 15px;
+    }
+
+    .nav {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .nav-item {
+      padding: 10px 14px;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: 6px;
+      color: #dbe6f0;
+      font-size: 14px;
+    }
+
+    .nav-item.active {
+      background: #fff;
+      color: var(--blue);
+      font-weight: 700;
+    }
+
+    .toolbar {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr 1fr 1fr auto;
+      gap: 12px;
+      margin: 18px 0;
+      align-items: center;
+    }
+
+    .search,
+    .select,
+    .button {
+      height: 42px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: #fff;
+      display: flex;
+      align-items: center;
+      padding: 0 14px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .button {
+      justify-content: center;
+      border-color: var(--orange);
+      background: var(--orange);
+      color: #fff;
+      font-weight: 700;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 310px 1fr 430px;
+      gap: 18px;
+      align-items: start;
+    }
+
+    .panel {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      box-shadow: 0 4px 18px rgba(23, 50, 77, 0.06);
+    }
+
+    .panel-header {
+      padding: 16px 18px 10px;
+      border-bottom: 1px solid #eef2f6;
+    }
+
+    .panel-title {
+      margin: 0;
+      color: var(--blue);
+      font-size: 17px;
+      line-height: 1.3;
+      font-weight: 800;
+    }
+
+    .panel-subtitle {
+      margin: 5px 0 0;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .panel-body {
+      padding: 16px 18px 18px;
+    }
+
+    .section-label {
+      margin: 18px 0 8px;
+      color: var(--blue);
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .section-label:first-child {
+      margin-top: 0;
+    }
+
+    .field {
+      height: 36px;
+      margin-bottom: 9px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: #fbfdff;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 10px;
+      color: var(--ink);
+      font-size: 13px;
+    }
+
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+    }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      height: 26px;
+      padding: 0 9px;
+      border-radius: 4px;
+      background: var(--soft);
+      color: var(--blue);
+      font-size: 12px;
+      font-weight: 650;
+    }
+
+    .chip.orange {
+      background: #fff3e2;
+      color: #9b520b;
+    }
+
+    .chip.green {
+      background: #e7f7ef;
+      color: #13784a;
+    }
+
+    .chip.red {
+      background: #fff0f0;
+      color: #a93434;
+    }
+
+    .resume-row {
+      padding: 10px;
+      margin-bottom: 8px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: #fbfdff;
+    }
+
+    .resume-row strong {
+      display: block;
+      color: var(--ink);
+      font-size: 13px;
+    }
+
+    .resume-row span {
+      display: block;
+      margin-top: 3px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .api-mini {
+      padding: 12px;
+      border: 1px solid #ffd9a8;
+      border-radius: 6px;
+      background: #fff8ee;
+    }
+
+    .api-mini .status {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+      font-size: 13px;
+      font-weight: 800;
+      color: #8a4d00;
+    }
+
+    .metrics {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .metric {
+      min-height: 76px;
+      padding: 12px 12px 10px;
+      border: 1px solid var(--line);
+      border-left: 4px solid var(--orange);
+      border-radius: 6px;
+      background: #fff;
+    }
+
+    .metric .label {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .metric .value {
+      margin-top: 8px;
+      color: var(--blue);
+      font-size: 24px;
+      font-weight: 850;
+    }
+
+    .summary-card {
+      display: grid;
+      grid-template-columns: 1fr 360px;
+      gap: 18px;
+      margin-bottom: 14px;
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+    }
+
+    .progress-title {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .progress {
+      display: grid;
+      grid-template-columns: 1.1fr 1.3fr 1fr 0.85fr 0.65fr 0.9fr;
+      height: 28px;
+      overflow: hidden;
+      border-radius: 5px;
+      background: #e9eef5;
+    }
+
+    .seg {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .s1 { background: #8294aa; }
+    .s2 { background: #f5a623; }
+    .s3 { background: #3d7be0; }
+    .s4 { background: #2cb36a; }
+    .s5 { background: #6f58c9; }
+    .s6 { background: #e45656; }
+
+    .bar-list {
+      display: grid;
+      gap: 9px;
+      padding: 6px 0;
+    }
+
+    .bar-row {
+      display: grid;
+      grid-template-columns: 72px 1fr 28px;
+      gap: 8px;
+      align-items: center;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .bar {
+      height: 8px;
+      border-radius: 5px;
+      background: #edf2f7;
+      overflow: hidden;
+    }
+
+    .bar span {
+      display: block;
+      height: 100%;
+      border-radius: 5px;
+      background: var(--blue-2);
+    }
+
+    .kanban {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .column {
+      min-height: 420px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #f8fafc;
+      overflow: hidden;
+    }
+
+    .column-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 10px;
+      border-bottom: 1px solid var(--line);
+      background: #fff;
+      color: var(--blue);
+      font-size: 13px;
+      font-weight: 850;
+    }
+
+    .count {
+      min-width: 22px;
+      height: 22px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 4px;
+      background: var(--soft);
+      font-size: 12px;
+      color: var(--blue);
+    }
+
+    .job-card {
+      margin: 10px;
+      padding: 10px;
+      border: 1px solid var(--line);
+      border-left: 3px solid var(--orange);
+      border-radius: 6px;
+      background: #fff;
+      box-shadow: 0 2px 8px rgba(23, 50, 77, 0.04);
+    }
+
+    .job-card strong {
+      display: block;
+      color: var(--ink);
+      font-size: 13px;
+    }
+
+    .job-card .role {
+      margin-top: 3px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .job-card .meta {
+      display: flex;
+      gap: 5px;
+      flex-wrap: wrap;
+      margin-top: 8px;
+    }
+
+    .job-card .next {
+      margin-top: 8px;
+      padding-top: 8px;
+      border-top: 1px dashed #d8e1eb;
+      color: var(--blue);
+      font-size: 12px;
+    }
+
+    .small-action {
+      margin: 10px;
+      height: 32px;
+      border: 1px dashed #b8c7d8;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--muted);
+      font-size: 12px;
+      background: #fff;
+    }
+
+    .ai-workbench {
+      display: grid;
+      gap: 12px;
+    }
+
+    .step {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      overflow: hidden;
+    }
+
+    .step-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 11px 13px;
+      border-bottom: 1px solid #eef2f6;
+      color: var(--blue);
+      font-size: 14px;
+      font-weight: 850;
+    }
+
+    .step-body {
+      padding: 12px 13px;
+    }
+
+    .textarea {
+      height: 86px;
+      padding: 10px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: #fbfdff;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .score-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+
+    .score {
+      padding: 9px 8px;
+      border-radius: 6px;
+      background: var(--soft);
+      text-align: center;
+    }
+
+    .score b {
+      display: block;
+      color: var(--blue);
+      font-size: 20px;
+    }
+
+    .score span {
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .diff {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .diff-box {
+      min-height: 110px;
+      padding: 10px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: #fbfdff;
+      font-size: 12px;
+      line-height: 1.55;
+      color: var(--muted);
+    }
+
+    .diff-box strong {
+      display: block;
+      margin-bottom: 6px;
+      color: var(--blue);
+    }
+
+    .api-config {
+      border-color: #ffd49a;
+      background: #fffaf2;
+    }
+
+    .api-config .step-head {
+      background: #fff3e0;
+      border-bottom-color: #ffd49a;
+      color: #8a4d00;
+    }
+
+    .password {
+      color: #9aa7b7;
+      letter-spacing: 2px;
+    }
+
+    .button-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .ghost-button,
+    .primary-button {
+      height: 34px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .ghost-button {
+      border: 1px solid var(--line);
+      color: var(--blue);
+      background: #fff;
+    }
+
+    .primary-button {
+      border: 1px solid var(--orange);
+      color: #fff;
+      background: var(--orange);
+    }
+
+    .note {
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.5;
+    }
+
+    .callouts {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .callout {
+      padding: 12px 14px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .callout strong {
+      display: block;
+      margin-bottom: 5px;
+      color: var(--blue);
+      font-size: 13px;
+    }
+  </style>
+</head>
+<body>
+  <main class="canvas">
+    <header class="topbar">
+      <div class="brand">
+        <h1>职途智析</h1>
+        <p>职业定位 + 求职记录 + AI 简历改写的一体化求职工作台</p>
+      </div>
+      <nav class="nav">
+        <div class="nav-item">岗位分析</div>
+        <div class="nav-item active">求职记录</div>
+        <div class="nav-item">AI改简历</div>
+        <div class="nav-item">API配置</div>
+        <div class="nav-item">面试准备</div>
+      </nav>
+    </header>
+
+    <section class="toolbar">
+      <div class="search">搜索公司、岗位、方向、备注...</div>
+      <div class="select">方向：全部方向</div>
+      <div class="select">状态：全部进度</div>
+      <div class="select">优先级：高 / 中 / 低</div>
+      <div class="button">新增投递</div>
+    </section>
+
+    <section class="grid">
+      <aside class="panel">
+        <div class="panel-header">
+          <h2 class="panel-title">用户求职上下文</h2>
+          <p class="panel-subtitle">作为 AI 改简历和岗位推荐的统一输入</p>
+        </div>
+        <div class="panel-body">
+          <div class="section-label">目标画像</div>
+          <div class="field"><span>目标城市</span><b>北京 / 上海 / 深圳</b></div>
+          <div class="field"><span>可到岗</span><b>立即到岗</b></div>
+          <div class="field"><span>实习时长</span><b>6个月以上</b></div>
+
+          <div class="section-label">目标方向</div>
+          <div class="chips">
+            <span class="chip orange">AI产品</span>
+            <span class="chip orange">数据产品</span>
+            <span class="chip orange">商业分析</span>
+            <span class="chip orange">策略运营</span>
+          </div>
+
+          <div class="section-label">可复用技能标签</div>
+          <div class="chips">
+            <span class="chip">Python</span>
+            <span class="chip">SQL</span>
+            <span class="chip">Excel</span>
+            <span class="chip">用户研究</span>
+            <span class="chip">知识图谱</span>
+            <span class="chip">A/B测试</span>
+          </div>
+
+          <div class="section-label">简历版本库</div>
+          <div class="resume-row">
+            <strong>基础通用版.docx</strong>
+            <span>默认母版，可作为 AI 改写输入</span>
+          </div>
+          <div class="resume-row">
+            <strong>互联网产品版.docx</strong>
+            <span>突出职途智析、GrowthLens 和产品思维</span>
+          </div>
+          <div class="resume-row">
+            <strong>数据分析版.docx</strong>
+            <span>突出 SQL、指标、实验和看板项目</span>
+          </div>
+
+          <div class="section-label">API状态</div>
+          <div class="api-mini">
+            <div class="status">
+              <span>AI改简历接口</span>
+              <span>待配置</span>
+            </div>
+            <div class="note">用户自行填写 API Key、Base URL 和模型名；默认仅保存在本地会话或本地配置中。</div>
+          </div>
+        </div>
+      </aside>
+
+      <section>
+        <div class="summary-card">
+          <div>
+            <div class="progress-title">
+              <span>求职进度总览</span>
+              <span>本地记录 / 可后续接入表格导入导出</span>
+            </div>
+            <div class="metrics">
+              <div class="metric"><div class="label">总投递</div><div class="value">24</div></div>
+              <div class="metric"><div class="label">面试转化率</div><div class="value">38%</div></div>
+              <div class="metric"><div class="label">已拿 Offer</div><div class="value">2</div></div>
+              <div class="metric"><div class="label">待跟进</div><div class="value">7</div></div>
+              <div class="metric"><div class="label">本周截止</div><div class="value">5</div></div>
+            </div>
+            <div class="progress">
+              <div class="seg s1">收藏 4</div>
+              <div class="seg s2">准备 5</div>
+              <div class="seg s3">已投 9</div>
+              <div class="seg s4">面试 4</div>
+              <div class="seg s5">Offer 2</div>
+              <div class="seg s6">拒绝 3</div>
+            </div>
+          </div>
+          <div>
+            <div class="progress-title">
+              <span>方向分布</span>
+              <span>用于判断投递组合</span>
+            </div>
+            <div class="bar-list">
+              <div class="bar-row"><span>AI产品</span><div class="bar"><span style="width: 82%"></span></div><b>8</b></div>
+              <div class="bar-row"><span>数据产品</span><div class="bar"><span style="width: 64%"></span></div><b>6</b></div>
+              <div class="bar-row"><span>商业分析</span><div class="bar"><span style="width: 52%"></span></div><b>5</b></div>
+              <div class="bar-row"><span>策略运营</span><div class="bar"><span style="width: 42%"></span></div><b>4</b></div>
+              <div class="bar-row"><span>金融科技</span><div class="bar"><span style="width: 22%"></span></div><b>2</b></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="kanban">
+          <div class="column">
+            <div class="column-head"><span>已收藏</span><span class="count">4</span></div>
+            <div class="job-card">
+              <strong>智谱华章</strong>
+              <div class="role">AI产品实习生</div>
+              <div class="meta"><span class="chip">AI</span><span class="chip green">高</span></div>
+              <div class="next">下一步：拆JD并生成岗位版简历</div>
+            </div>
+            <div class="job-card">
+              <strong>小红书</strong>
+              <div class="role">社区产品实习</div>
+              <div class="meta"><span class="chip">C端</span><span class="chip orange">中</span></div>
+              <div class="next">下一步：补充用户研究经历</div>
+            </div>
+            <div class="small-action">新增收藏</div>
+          </div>
+
+          <div class="column">
+            <div class="column-head"><span>准备中</span><span class="count">5</span></div>
+            <div class="job-card">
+              <strong>腾讯云</strong>
+              <div class="role">数据产品经理实习</div>
+              <div class="meta"><span class="chip">B端</span><span class="chip green">高</span></div>
+              <div class="next">下一步：AI改写项目经历</div>
+            </div>
+            <div class="job-card">
+              <strong>美团</strong>
+              <div class="role">商业分析实习</div>
+              <div class="meta"><span class="chip">本地生活</span><span class="chip orange">中</span></div>
+              <div class="next">下一步：准备SQL追问</div>
+            </div>
+            <div class="small-action">新增准备项</div>
+          </div>
+
+          <div class="column">
+            <div class="column-head"><span>已投递</span><span class="count">9</span></div>
+            <div class="job-card">
+              <strong>字节跳动</strong>
+              <div class="role">增长产品实习</div>
+              <div class="meta"><span class="chip">增长</span><span class="chip green">高</span></div>
+              <div class="next">下一步：等待简历筛选结果</div>
+            </div>
+            <div class="job-card">
+              <strong>阿里云</strong>
+              <div class="role">解决方案产品助理</div>
+              <div class="meta"><span class="chip">SaaS</span><span class="chip orange">中</span></div>
+              <div class="next">下一步：跟进内推人</div>
+            </div>
+            <div class="small-action">记录投递</div>
+          </div>
+
+          <div class="column">
+            <div class="column-head"><span>笔试/面试</span><span class="count">4</span></div>
+            <div class="job-card">
+              <strong>百度</strong>
+              <div class="role">AI产品经理实习</div>
+              <div class="meta"><span class="chip">AI</span><span class="chip red">本周</span></div>
+              <div class="next">下一步：整理职途智析讲稿</div>
+            </div>
+            <div class="job-card">
+              <strong>得物</strong>
+              <div class="role">数据运营实习</div>
+              <div class="meta"><span class="chip">运营</span><span class="chip orange">中</span></div>
+              <div class="next">下一步：复盘漏斗分析项目</div>
+            </div>
+            <div class="small-action">新增面试</div>
+          </div>
+
+          <div class="column">
+            <div class="column-head"><span>已拿 Offer</span><span class="count">2</span></div>
+            <div class="job-card">
+              <strong>某AI工具公司</strong>
+              <div class="role">产品实习生</div>
+              <div class="meta"><span class="chip green">Offer</span></div>
+              <div class="next">下一步：确认入职材料</div>
+            </div>
+            <div class="small-action">记录Offer</div>
+          </div>
+
+          <div class="column">
+            <div class="column-head"><span>已拒绝/归档</span><span class="count">3</span></div>
+            <div class="job-card">
+              <strong>某教育科技</strong>
+              <div class="role">产品运营实习</div>
+              <div class="meta"><span class="chip red">不匹配</span></div>
+              <div class="next">复盘：岗位偏销售，暂不优先</div>
+            </div>
+            <div class="small-action">归档记录</div>
+          </div>
+        </div>
+      </section>
+
+      <aside class="panel">
+        <div class="panel-header">
+          <h2 class="panel-title">AI改简历工作台</h2>
+          <p class="panel-subtitle">从 JD 到岗位版简历，再回写求职记录</p>
+        </div>
+        <div class="panel-body ai-workbench">
+          <div class="step">
+            <div class="step-head">
+              <span>步骤1：选择岗位 / 粘贴JD</span>
+              <span class="chip">来自投递记录</span>
+            </div>
+            <div class="step-body">
+              <div class="field"><span>目标岗位</span><b>百度 AI产品经理实习</b></div>
+              <div class="textarea">岗位描述：负责AI产品需求分析、竞品调研、用户反馈整理、数据指标跟踪；要求具备产品思维、数据分析和项目表达能力...</div>
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="step-head">
+              <span>步骤2：选择简历与改写目标</span>
+              <span class="chip orange">产品岗</span>
+            </div>
+            <div class="step-body">
+              <div class="two-col">
+                <div class="field"><span>简历母版</span><b>基础通用版</b></div>
+                <div class="field"><span>输出语言</span><b>中文</b></div>
+                <div class="field"><span>强调能力</span><b>产品/数据/AI</b></div>
+                <div class="field"><span>篇幅</span><b>一页</b></div>
+              </div>
+              <div class="button-row">
+                <div class="ghost-button">预检查JD关键词</div>
+                <div class="primary-button">生成岗位版简历</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="step api-config">
+            <div class="step-head">
+              <span>API配置：用户自行填写</span>
+              <span>本地保存</span>
+            </div>
+            <div class="step-body">
+              <div class="field"><span>Provider</span><b>OpenAI / DeepSeek / 自定义</b></div>
+              <div class="field"><span>Base URL</span><b>https://api.openai.com/v1</b></div>
+              <div class="field"><span>API Key</span><b class="password">••••••••••••••</b></div>
+              <div class="field"><span>Model</span><b>gpt-4.1-mini</b></div>
+              <div class="button-row">
+                <div class="ghost-button">测试连接</div>
+                <div class="primary-button">保存配置</div>
+              </div>
+              <div class="note">建议：API Key 不上传仓库；可先用本地 session 或 .streamlit/secrets.toml，后续再加加密存储。</div>
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="step-head">
+              <span>步骤3：AI输出与人工确认</span>
+              <span class="chip green">可回写记录</span>
+            </div>
+            <div class="step-body">
+              <div class="score-grid">
+                <div class="score"><b>82</b><span>JD匹配</span></div>
+                <div class="score"><b>76</b><span>量化表达</span></div>
+                <div class="score"><b>88</b><span>关键词覆盖</span></div>
+              </div>
+              <div class="diff">
+                <div class="diff-box">
+                  <strong>原表述</strong>
+                  搭建职业推荐系统，展示岗位、技能和课程推荐结果。
+                </div>
+                <div class="diff-box">
+                  <strong>改写建议</strong>
+                  基于岗位-技能-课程图谱设计职业路径推荐工具，输出技能缺口、课程路径和面试准备建议，支撑AI产品求职场景。
+                </div>
+              </div>
+              <div class="button-row">
+                <div class="ghost-button">复制改写段落</div>
+                <div class="primary-button">保存为该岗位简历</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <section class="callouts">
+      <div class="callout">
+        <strong>开发拆分1：求职记录</strong>
+        localStorage / CSV导入导出起步；字段包括公司、岗位、方向、状态、日期、优先级、下一步、备注、关联简历。
+      </div>
+      <div class="callout">
+        <strong>开发拆分2：AI改简历</strong>
+        输入 JD + 简历文本 + 改写目标；输出匹配评分、关键词缺口、改写建议和岗位版简历。
+      </div>
+      <div class="callout">
+        <strong>开发拆分3：API配置</strong>
+        Provider、Base URL、API Key、Model 由用户填写；先本地保存，避免把密钥写进代码仓库。
+      </div>
+      <div class="callout">
+        <strong>开发拆分4：闭环联动</strong>
+        从求职记录进入 AI 改简历，生成结果后回写该岗位的简历版本、下一步行动和面试准备。
+      </div>
+    </section>
+  </main>
+</body>
+</html>
